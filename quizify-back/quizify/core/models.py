@@ -70,3 +70,105 @@ class User(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
     USERNAME_FIELD = "email"
+
+    @property
+    def full_name(self):
+        return self.first_name.capitalize() + " " + self.last_name
+
+
+class Topic(models.Model):
+    topic = models.CharField(max_length=50, blank=False, null=False)
+
+    def __str__(self) -> str:
+        return self.topic
+
+
+class Quiz(models.Model):
+    TYPE_QCM = 1
+    TYPE_QCU = 2
+
+    TYPE_CHOICE = (
+        (TYPE_QCM, "QCM"),
+        (TYPE_QCU, "QCU"),
+    )
+
+    user = models.ForeignKey(
+        User,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+        related_name="quizzes",
+    )
+
+    topic = models.ForeignKey(
+        Topic,
+        on_delete=models.PROTECT,
+        blank=False,
+        null=False,
+        related_name="quizzes",
+    )
+    type = models.PositiveSmallIntegerField(choices=TYPE_CHOICE, default=TYPE_QCU)
+
+    def __str__(self) -> str:
+        return "Quiz created by {user} in {topic} topic.".format(
+            user=self.user.full_name, topic=self.topic.topic
+        )
+
+
+class Question(models.Model):
+    quiz = models.ForeignKey(
+        Quiz,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="questions",
+    )
+    question = models.CharField(max_length=500)
+
+    def __str__(self) -> str:
+        return self.question
+
+
+class Option(models.Model):
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="options",
+    )
+
+    option = models.CharField(max_length=500)
+    is_correct = models.BooleanField(default=False)
+
+    def __str__(self) -> str:
+        return self.option
+
+
+class Answer(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="answers",
+    )
+
+    question = models.ForeignKey(
+        Question,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="answers",
+    )
+
+    option = models.ForeignKey(
+        Option,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="answers",
+    )
+
+    def __str__(self) -> str:
+        return self.option
