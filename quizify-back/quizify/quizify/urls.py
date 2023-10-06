@@ -29,6 +29,7 @@ urlpatterns = [
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),
+    path("api/v1/", include("api.urls")),
 ]
 
 

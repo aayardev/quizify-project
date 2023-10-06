@@ -45,8 +45,8 @@ const WordsCloudCard = ({ words }: Props) => {
       <CardContent>
         <WordCloud
           data={words.map((word) => ({ text: word.topic, value: word.count }))}
-          width={500}
-          height={500}
+          height={200}
+          width={200}
           font="Times"
           fontStyle="italic"
           fontWeight="bold"

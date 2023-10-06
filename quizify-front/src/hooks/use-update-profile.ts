@@ -73,7 +73,7 @@ export default function useUpdateProfile(
       update({ user: res.data });
       toast({
         title: "Success",
-        description: "Success message",
+        description: "Your profile has been changed successfully.",
         variant: "success",
       });
     } catch (err) {

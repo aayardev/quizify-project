@@ -36,10 +36,7 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
-    full_name = serializers.SerializerMethodField()
-
-    def get_full_name(self, user):
-        return user.first_name.capitalize() + " " + user.last_name
+    full_name = serializers.CharField()
 
     class Meta(UserDetailsSerializer.Meta):
         fields = [

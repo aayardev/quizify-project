@@ -1,7 +1,5 @@
 "use client";
 
-import { getServerAuthSession } from "@/lib/next-auth";
-import Link from "next/link";
 import React, { useEffect } from "react";
 import SignInButton from "./SignInButton";
 import UserAccountNav from "./UserAccountNav";
@@ -15,11 +13,6 @@ type Props = {};
 
 const Navbar = (props: Props) => {
   const { data: session, status } = useSession();
-  useEffect(() => {
-    if (status === "unauthenticated") {
-      redirect("/auth/login");
-    }
-  }, [status]);
 
   return (
     <header className=" fixed inset-0 top-0 left-0 bg-white dark:bg-gray-950  border-b h-fit py-2 border-zinc-200 z-10">

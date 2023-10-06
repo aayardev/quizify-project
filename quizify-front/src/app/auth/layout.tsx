@@ -9,7 +9,7 @@ export default function AuthLayout({
     <>
       <QuizifyLogo className="fixed top-5 sm:z-10   left-8 " />
 
-      <div className=" min-h-screen flex items-center justify-center bg-white inset-0  sm:z-20 z-30 bg-qst-mark-pattern bg-cover backdrop-blur-md	 ">
+      <div className=" min-h-screen flex items-center justify-center bg-primary-foreground inset-0  sm:z-20 z-30 bg-cover backdrop-blur-md	 ">
         {/* <div className="inset-0 w-full h-full backdrop-blur-md bg-gray-200/50" /> */}
 
         {children}

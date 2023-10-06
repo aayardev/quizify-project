@@ -143,6 +143,9 @@ GitHub.sublime-settings
 mediafiles
 
 
+# Db
+*.db
+
 
 # Nextjs #
 

@@ -26,7 +26,7 @@ export const updateUserProfile = (
 
 export const refreshToken = (data: API.TRefreshTokenData) => {
   return httpClient.post<API.TRefreshTokenRerurnedData>(
-    "auth/token/refrehhsh/",
+    "auth/token/refresh/",
     data
   );
 };

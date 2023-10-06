@@ -15,7 +15,7 @@ const LoginCard = (props: Props) => {
       <CardHeader>
         <CardTitle>Welcome to Quizify 🔥!</CardTitle>
         <CardDescription>
-          Quizmify is a platform for creating quizzes using AI!. Get started by
+          Quizify is a platform for creating quizzes using AI!. Get started by
           loggin in below!
         </CardDescription>
       </CardHeader>

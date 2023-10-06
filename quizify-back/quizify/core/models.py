@@ -77,10 +77,14 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Topic(models.Model):
-    topic = models.CharField(max_length=50, blank=False, null=False)
+    name = models.CharField(max_length=50, blank=False, null=False)
+
+    @property
+    def quizzes_count(self):
+        return self.quizzes.all().count()
 
     def __str__(self) -> str:
-        return self.topic
+        return self.name
 
 
 class Quiz(models.Model):
@@ -92,12 +96,12 @@ class Quiz(models.Model):
         (TYPE_QCU, "QCU"),
     )
 
-    user = models.ForeignKey(
+    created_by = models.ForeignKey(
         User,
         on_delete=models.PROTECT,
         blank=False,
         null=False,
-        related_name="quizzes",
+        related_name="created_quizzes",
     )
 
     topic = models.ForeignKey(
@@ -109,10 +113,30 @@ class Quiz(models.Model):
     )
     type = models.PositiveSmallIntegerField(choices=TYPE_CHOICE, default=TYPE_QCU)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    @property
+    def participants_count(self):
+        return self.participants.all().count()
+
+    @property
+    def likes_count(self):
+        return self.likes.all().count()
+
     def __str__(self) -> str:
         return "Quiz created by {user} in {topic} topic.".format(
-            user=self.user.full_name, topic=self.topic.topic
+            user=self.created_by.full_name, topic=self.topic.topic
         )
+
+
+class Participation(models.Model):
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="participations"
+    )
+    quiz = models.ForeignKey(
+        Quiz, on_delete=models.CASCADE, related_name="participants"
+    )
+    started_at = models.DateTimeField(auto_now_add=True)
 
 
 class Question(models.Model):
@@ -123,10 +147,19 @@ class Question(models.Model):
         null=False,
         related_name="questions",
     )
-    question = models.CharField(max_length=500)
+    body = models.CharField(max_length=500)
 
     def __str__(self) -> str:
         return self.question
+
+
+class LikedQuiz(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="likes")
+    quiz = models.ForeignKey(Quiz, on_delete=models.CASCADE, related_name="likes")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.quiz.topic.topic + " liked by " + self.user.email
 
 
 class Option(models.Model):
@@ -138,7 +171,7 @@ class Option(models.Model):
         related_name="options",
     )
 
-    option = models.CharField(max_length=500)
+    body = models.CharField(max_length=500)
     is_correct = models.BooleanField(default=False)
 
     def __str__(self) -> str:
@@ -171,4 +204,4 @@ class Answer(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.option
+        return self.option.question.question

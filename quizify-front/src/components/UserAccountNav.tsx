@@ -38,14 +38,7 @@ const UserAccountNav = ({ user }: Props) => {
           )}
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem
-          className="dark:text-black dark:hover:text-white"
-          onSelect={(e) => {
-            // console.log("jjjjjjjjjjjjjjjjjjjjjjjjjjj");
-            // router.push("/u/update");
-            e.preventDefault();
-          }}
-        >
+        <DropdownMenuItem className="dark:text-black dark:hover:text-white">
           <Link href="/u/update">Settings</Link>
         </DropdownMenuItem>
         <DropdownMenuSeparator />

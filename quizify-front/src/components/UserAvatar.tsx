@@ -1,24 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
-import { Avatar, AvatarImage, AvatarFallback } from "./ui/avatar";
-import { Skeleton } from "./ui/skeleton";
 import { User } from "next-auth";
-import { useTimeout } from "usehooks-ts";
+import { Avatar, AvatarFallback, AvatarImage, AvatarProps } from "./ui/avatar";
 
 type Props = {
   user: Pick<User, "first_name" | "last_name" | "profile_image">;
+  size?: AvatarProps["size"];
 };
 
-const UserAvatar = ({ user }: Props) => {
-  console.log(user.profile_image, "user.profile_image");
+const UserAvatar = ({ user, size = "default" }: Props) => {
   return (
-    <Avatar>
+    <Avatar size={size}>
       {user.profile_image ? (
-        <AvatarImage src={user.profile_image} alt="Profile picture" />
+        <AvatarImage sizes="" src={user.profile_image} alt="Profile picture" />
       ) : (
         <AvatarFallback>
-          {user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()}
+          {user.first_name && user.last_name ? (
+            <>
+              {user.first_name[0].toUpperCase() +
+                user.last_name[0].toUpperCase()}
+            </>
+          ) : null}
         </AvatarFallback>
       )}
     </Avatar>

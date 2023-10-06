@@ -1,18 +1,27 @@
 from django.contrib import admin
-from core.models import User, Quiz, Answer, Question, Option, Topic
+from core.models import (
+    User,
+    Quiz,
+    Answer,
+    Question,
+    Option,
+    Topic,
+    LikedQuiz,
+    Participation,
+)
 
 
-admin.site.register([User, Question, Topic])
+admin.site.register([User, Question, Topic, LikedQuiz, Participation])
 
 
 @admin.register(Option)
 class OptionAdmin(admin.ModelAdmin):
-    list_display = ("option", "question", "is_correct")
+    list_display = ("body", "question", "is_correct")
 
 
 @admin.register(Quiz)
 class QuizAdmin(admin.ModelAdmin):
-    list_display = ("user", "topic", "type")
+    list_display = ("created_by", "topic", "type")
 
 
 @admin.register(Answer)
