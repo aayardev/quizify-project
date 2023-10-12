@@ -8,6 +8,8 @@ import QuizifyLogo from "./QuizifyLogo";
 import { useSession } from "next-auth/react";
 import { Skeleton } from "./ui/skeleton";
 import { redirect } from "next/navigation";
+import { Button, buttonVariants } from "./ui/button";
+import Link from "next/link";
 
 type Props = {};
 
@@ -20,6 +22,12 @@ const Navbar = (props: Props) => {
         <QuizifyLogo />
 
         <div className="flex items-center gap-x-3">
+          {session?.user && (
+            <Link href="/quiz" className={buttonVariants()}>
+              + New quizz
+            </Link>
+          )}
+
           <ModeToggle />
           {status === "loading" ? (
             <Skeleton className="h-10 w-10 rounded-full flex dark:bg-white" />

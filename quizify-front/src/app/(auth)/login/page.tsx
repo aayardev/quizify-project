@@ -20,7 +20,7 @@ const LoginPage = async (props: Props) => {
 
   console.log(session);
 
-  if (session?.user) return redirect("/dashboard");
+  if (session?.user) return redirect("/");
   return (
     <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   w-[90vw] max-w-md">
       <Card>
@@ -30,7 +30,7 @@ const LoginPage = async (props: Props) => {
             First time here?{" "}
             <Link
               className="underline underline-offset-2"
-              href="/auth/register"
+              href="/register"
             >
               Sign up
             </Link>

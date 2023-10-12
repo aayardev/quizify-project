@@ -6,15 +6,9 @@ declare namespace API {
     results: T[];
   };
 
-  type TTopic = {
-    id: number;
-    name: string;
-    quizzes_count: number;
-  };
-
   type TQuiz = {
     id: number;
-    topic: TTopic;
+    topic: API.TTopic;
     created_by: API.TUser;
     participants_count: number;
     likes_count: number;
@@ -22,4 +16,6 @@ declare namespace API {
 
   type TGetLatestQuizzesReturnedData = TResponse<TQuiz>;
   type TGetTopQuizzesReturnedData = TResponse<TQuiz>;
+
+  type TCreateQuizData = Record<"topic", string>;
 }

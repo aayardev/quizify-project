@@ -2,13 +2,9 @@ import { getServerToken } from "@/lib/next-auth";
 
 import Navbar from "@/components/Navbar";
 import LatestQuizzes from "@/components/home/LatestQuizzes";
-import {
-  getLatestQuizzes,
-  getTopQuizzes,
-  getTopics,
-} from "@/services/quizz/api";
 import TopQuizzes from "@/components/home/TopQuizzes";
 import TopicCloud from "@/components/home/TopicCloud";
+import { getLatestQuizzes, getTopQuizzes, getTopics } from "@/services";
 
 export default async function Home() {
   const {
@@ -37,8 +33,8 @@ export default async function Home() {
       <Navbar />
       <main className="p-8 mx-auto  max-w-7xl pt-24 ">
         <TopicCloud topics={topics} />
-        <LatestQuizzes quizzes={latestQuizzes} />
-        <TopQuizzes quizzes={topQuizzes} />
+        <LatestQuizzes quizzes={latestQuizzes} showFilters />
+        <TopQuizzes quizzes={topQuizzes} showFilters />
       </main>
     </>
   );

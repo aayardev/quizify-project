@@ -13,6 +13,7 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
 from stdimage import StdImageField
+import random
 
 
 class UserManager(BaseUserManager):
@@ -77,11 +78,52 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Topic(models.Model):
+    # COLORS = [
+    #     "#7fc97f",
+    #     "#beaed4",
+    #     "#fdc086",
+    #     "#ffff99",
+    #     "#386cb0",
+    #     "#f0027f",
+    #     "#bf5b17",
+    #     "#666666",
+    #     "#1f77b4",
+    #     "#ff7f0e",
+    #     "#2ca02c",
+    #     "#d62728",
+    #     "#9467bd",
+    #     "#8c564b",
+    #     "#e377c2",
+    #     "#7f7f7f",
+    #     "#bcbd22",
+    #     "#17becf",
+    # ]
+
+    COLORS = [
+        "#1f77b4",
+        "#ff7f0e",
+        "#2ca02c",
+        "#ca02cd",
+        "#627289",
+        "#467bd8",
+        "#c564be",
+        "#377c27",
+        "#f7f7fb",
+        "#cbd221",
+        "#7becf",
+    ]
+
     name = models.CharField(max_length=50, blank=False, null=False)
+    color = models.CharField(max_length=7, default=COLORS[0])
 
     @property
     def quizzes_count(self):
         return self.quizzes.all().count()
+
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.color = random.choice(self.COLORS)
+        super().save(*args, **kwargs)
 
     def __str__(self) -> str:
         return self.name

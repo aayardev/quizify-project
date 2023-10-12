@@ -18,15 +18,15 @@ type Props = {
 
 const QuizCard = ({ quiz }: Props) => {
   return (
-    <Card>
+    <Card
+      style={{
+        backgroundColor: quiz.topic.color,
+      }}
+    >
       <CardHeader>
-        <CardTitle>
+        <CardTitle className="text-white">
           {capitalize(quiz.topic.name)} #{quiz.id}
         </CardTitle>
-        {/* <CardDescription>
-          Test your knowledge of {capitalize(quiz.topic.name)} with these hard
-          multiple-choice questions.
-        </CardDescription> */}
       </CardHeader>
       <CardFooter className="flex justify-between">
         <div className="flex items-center gap-x-1.5">
@@ -38,13 +38,13 @@ const QuizCard = ({ quiz }: Props) => {
           <WithTooltip
             content={
               <div className="flex items-center gap-x-1.5">
-                <Info className="h-3.5 w-3.5 " />
+                <Info className="h-3.5 w-3.5   " />
                 <span>Participants count</span>
               </div>
             }
           >
-            <div className="flex items-center gap-x-0.5">
-              <User className="h-4 w-4" />
+            <div className="flex items-center gap-x-0.5 text-white">
+              <User className="h-4 w-4 " />
               <span>{quiz.participants_count}</span>
             </div>
           </WithTooltip>
@@ -56,8 +56,8 @@ const QuizCard = ({ quiz }: Props) => {
               </div>
             }
           >
-            <div className="flex items-center gap-x-0.5">
-              <ThumbsUp className="h-4 w-4" />
+            <div className="flex items-center gap-x-0.5 text-white">
+              <ThumbsUp className="h-4 w-4 " />
               <span>{quiz.likes_count}</span>
             </div>
           </WithTooltip>

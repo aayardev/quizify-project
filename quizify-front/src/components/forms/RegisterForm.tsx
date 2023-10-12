@@ -20,27 +20,27 @@ type Props = {};
 const config = [
   {
     name: "first_name",
-    type: "text",
+    type: "text" as "text",
     label: "First name",
   },
   {
     name: "last_name",
-    type: "text",
+    type: "text" as "text",
     label: "Last name",
   },
   {
     name: "email",
-    type: "text",
+    type: "text" as "text",
     label: "Email",
   },
   {
     name: "password1",
-    type: "password",
+    type: "password" as "password",
     label: "Password",
   },
   {
     name: "password2",
-    type: "password",
+    type: "password" as "password",
     label: "Confirm Password",
   },
 ];
@@ -98,7 +98,7 @@ const RegisterForm = (props: Props) => {
           <CardTitle>Quizify 🔥</CardTitle>
           <CardDescription>
             Already have an account?{" "}
-            <Link className="underline underline-offset-2" href="/auth/login">
+            <Link className="underline underline-offset-2" href="/login">
               Sign in
             </Link>
           </CardDescription>

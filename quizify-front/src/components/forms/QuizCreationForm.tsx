@@ -115,7 +115,7 @@ const QuizCreationForm = (props: Props) => {
               )}
             />
 
-            <FormField
+            {/* <FormField
               control={control}
               name="amount"
               render={({ field }) => (
@@ -169,7 +169,7 @@ const QuizCreationForm = (props: Props) => {
                   <FormMessage />
                 </FormItem>
               )}
-            />
+            /> */}
             <Button isLoading={isLoading} disabled={isLoading} type="submit">
               Submit
             </Button>

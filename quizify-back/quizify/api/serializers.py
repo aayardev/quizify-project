@@ -28,7 +28,7 @@ class TopicModelSerializer(FlexFieldsModelSerializer):
 
     class Meta:
         model = Topic
-        fields = ["id", "name", "quizzes_count"]
+        fields = ["id", "name", "quizzes_count", "color"]
 
 
 class OptionModelSerializer(FlexFieldsModelSerializer):

@@ -4,9 +4,10 @@ import WordCloud from "react-d3-cloud";
 import { scaleOrdinal } from "d3-scale";
 import { schemeCategory10 } from "d3-scale-chromatic";
 import { Card } from "../ui/card";
-import { getTopics } from "@/services/quizz/api";
 import { useQuery } from "react-query";
 import WithUnderline from "../WithUnderline";
+import { useRouter } from "next/navigation";
+import { getTopics } from "@/services";
 
 type Props = {
   topics: API.TTopic[];
@@ -15,6 +16,7 @@ type Props = {
 const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeCategory10);
 
 const TopicCloud = ({ topics: initialTopics }: Props) => {
+  const router = useRouter();
   const { data: topics, isSuccess } = useQuery({
     queryKey: ["top-topics"],
     queryFn: async () => {
@@ -39,7 +41,8 @@ const TopicCloud = ({ topics: initialTopics }: Props) => {
             <WordCloud
               data={topics.map((topic) => ({
                 text: topic.name,
-                value: 1,
+                value: topic.quizzes_count,
+                id: topic.id,
               }))}
               width={500}
               height={500}
@@ -53,7 +56,8 @@ const TopicCloud = ({ topics: initialTopics }: Props) => {
               random={Math.random}
               fill={(_d: any, i: string) => schemeCategory10ScaleOrdinal(i)}
               onWordClick={(event, d) => {
-                console.log(`onWordClick: ${d.text}`);
+                // @ts-ignorelogin
+                router.push(`/topic/${d.text}-${d.id}`);
               }}
             />
           </div>

@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     "dj_rest_auth",
     "stdimage",
     "django_filters",
+    "colorfield",
     # Local apps
     "core",
     "accounts",

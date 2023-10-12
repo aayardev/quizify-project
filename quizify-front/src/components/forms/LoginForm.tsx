@@ -12,18 +12,15 @@ import { Separator } from "../ui/separator";
 const config = [
   {
     name: "email",
-    type: "text",
+    type: "email" as "email",
     label: "Email",
   },
   {
     name: "password",
-    type: "password",
+    type: "password" as "password",
     label: "Password",
     description: (
-      <Link
-        href="/auth/reset-password/"
-        className="underline underline-offset-2"
-      >
+      <Link href="/reset-password/" className="underline underline-offset-2">
         Forgot your password?
       </Link>
     ),

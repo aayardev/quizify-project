@@ -23,12 +23,12 @@ type Props = {
 const config = [
   {
     name: "new_password1",
-    type: "password",
+    type: "password" as "password",
     label: "Password",
   },
   {
     name: "new_password2",
-    type: "password",
+    type: "password" as "password",
     label: "Confirm Password",
   },
 ];
@@ -41,7 +41,7 @@ const ConfirmPasswordForm = ({ defaultValues }: Props) => {
       description: (
         <p className="text-xs">
           Password has been reset with the new password.{" "}
-          <Link href="/auth/login" className="underline underline-offset-2">
+          <Link href="/login" className="underline underline-offset-2">
             Click here{" "}
           </Link>
           to login to your account.

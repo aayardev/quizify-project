@@ -3,7 +3,6 @@ from rest_framework.response import Response
 from api.serializers import (
     QuizCreateSerializer,
     QuizReadSerializer,
-    TopicModelSerializer,
 )
 from api.utils.gpt import create_chat_completion
 from core.models import Topic, Quiz, Question, Option
@@ -116,16 +115,3 @@ class TopQuizzesListAPIView(generics.ListAPIView):
 
 
 top_quizzes_list_api_view = TopQuizzesListAPIView.as_view()
-
-
-class TopicListAPIView(generics.ListAPIView):
-    serializer_class = TopicModelSerializer
-    permission_classes = [permissions.AllowAny]
-
-    def get_queryset(self):
-        return Topic.objects.annotate(num_quizzes=Count("quizzes")).order_by(
-            "num_quizzes"
-        )
-
-
-topic_list_api_view = TopicListAPIView.as_view()

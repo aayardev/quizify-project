@@ -5,31 +5,19 @@ import Carousel from "../carousel";
 import QuizCard from "../quiz-card";
 import { useQuery } from "react-query";
 import { getTopQuizzes } from "@/services/quiz/api";
-import TopicFilter from "./TopicFilter";
 import WithUnderline from "../WithUnderline";
+import { getTopicTopQuizzes } from "@/services";
 
 type Props = {
   quizzes: API.TQuiz[];
-  showFilters?: boolean;
+  topicId: string;
 };
 
-const TopQuizzes = ({
-  quizzes: initialQuizzes,
-  showFilters = false,
-}: Props) => {
-  const [filter, setFilter] = React.useState("all");
-  const {
-    data: quizzes,
-    isLoading,
-    isError,
-  } = useQuery({
-    queryKey: ["top-quizzes", filter],
+const TopicTopQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
+  const { data: quizzes } = useQuery({
+    queryKey: ["topic-top-quizzes", topicId],
     queryFn: async () => {
-      const res = getTopQuizzes(
-        undefined,
-        8,
-        `${filter === "all" ? "" : `topic__name=${filter}`} `
-      );
+      const res = getTopicTopQuizzes(topicId, undefined, 8);
       return (await res).data.results;
     },
     initialData: initialQuizzes,
@@ -41,9 +29,6 @@ const TopQuizzes = ({
           Top Quizzes
         </h2>
       </WithUnderline>
-      {showFilters && (
-        <TopicFilter filter={filter} onFilter={(topic) => setFilter(topic)} />
-      )}
 
       <Carousel className="mt-8">
         {quizzes?.map((quiz) => (
@@ -54,4 +39,4 @@ const TopQuizzes = ({
   );
 };
 
-export default TopQuizzes;
+export default TopicTopQuizzes;
