@@ -3,10 +3,10 @@ import { getLatestQuizzes } from "@/services/quiz/api";
 import React from "react";
 import { useQuery } from "react-query";
 import Carousel from "../carousel";
-import QuizCard from "../quiz-card";
+import QuizCard from "../QuizCard";
 import TopicFilter from "./TopicFilter";
 import { useTheme } from "next-themes";
-import WithUnderline from "../WithUnderline";
+import WithUnderline from "../wrappers/WithUnderline";
 
 type Props = {
   quizzes: API.TQuiz[];

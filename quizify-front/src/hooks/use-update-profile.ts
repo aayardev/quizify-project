@@ -11,6 +11,7 @@ import {
   useForm,
 } from "react-hook-form";
 import { z } from "zod";
+import { useService } from "./use-service";
 
 type TAxiosErrorData =
   | {
@@ -39,6 +40,7 @@ export const UpdateProfileSchema = z.object({
 export default function useUpdateProfile(
   defaultValues: API.TUpdateUserProfileData
 ) {
+  const updateProfile = useService("updateProfile");
   const { toast } = useToast();
   const { data: session, update } = useSession();
 
@@ -52,6 +54,7 @@ export default function useUpdateProfile(
 
   const {
     formState: { isSubmitting },
+    reset,
   } = form;
 
   const onValid: SubmitHandler<API.TUpdateUserProfileData> = async (data) => {
@@ -63,8 +66,7 @@ export default function useUpdateProfile(
       if (data.profile_image)
         formData.append("profile_image", data.profile_image as File);
 
-      console.log(data.profile_image, "data.profile_image");
-      const res = await updateUserProfile(formData, {
+      const res = await updateProfile(formData, {
         headers: {
           Authorization: `Bearer ${session?.access}`,
           "Content-Type": "multipart/form-data",
@@ -76,6 +78,11 @@ export default function useUpdateProfile(
         description: "Your profile has been changed successfully.",
         variant: "success",
       });
+      // reset({
+      //   first_name: "",
+      //   last_name: "",
+      //   profile_image: undefined,
+      // });
     } catch (err) {
       if (axios.isAxiosError(err)) {
         const axsError = err as AxiosError<TAxiosErrorData>;

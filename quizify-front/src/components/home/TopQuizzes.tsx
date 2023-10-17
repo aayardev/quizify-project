@@ -2,11 +2,11 @@
 
 import React from "react";
 import Carousel from "../carousel";
-import QuizCard from "../quiz-card";
+import QuizCard from "../QuizCard";
 import { useQuery } from "react-query";
 import { getTopQuizzes } from "@/services/quiz/api";
 import TopicFilter from "./TopicFilter";
-import WithUnderline from "../WithUnderline";
+import WithUnderline from "../wrappers/WithUnderline";
 
 type Props = {
   quizzes: API.TQuiz[];

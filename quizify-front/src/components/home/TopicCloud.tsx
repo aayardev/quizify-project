@@ -1,19 +1,15 @@
 "use client";
-import React from "react";
-import WordCloud from "react-d3-cloud";
-import { scaleOrdinal } from "d3-scale";
-import { schemeCategory10 } from "d3-scale-chromatic";
-import { Card } from "../ui/card";
-import { useQuery } from "react-query";
-import WithUnderline from "../WithUnderline";
-import { useRouter } from "next/navigation";
 import { getTopics } from "@/services";
+import { useRouter } from "next/navigation";
+import { useQuery } from "react-query";
+import WithUnderline from "../wrappers/WithUnderline";
+import { Card } from "../ui/card";
+
+import WordCloud from "../WordCloud";
 
 type Props = {
   topics: API.TTopic[];
 };
-
-const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeCategory10);
 
 const TopicCloud = ({ topics: initialTopics }: Props) => {
   const router = useRouter();
@@ -39,25 +35,22 @@ const TopicCloud = ({ topics: initialTopics }: Props) => {
         <Card className="mt-8">
           <div className="max-w-sm mx-auto">
             <WordCloud
-              data={topics.map((topic) => ({
+              words={topics.map((topic) => ({
                 text: topic.name,
                 value: topic.quizzes_count,
                 id: topic.id,
+                color: topic.color,
               }))}
               width={500}
               height={500}
-              font="Times"
-              fontStyle="italic"
-              fontWeight="bold"
-              fontSize={(word) => Math.log2(word.value) * 5 + 24}
-              spiral="rectangular"
-              rotate={(word) => word.value % 360}
-              padding={5}
-              random={Math.random}
-              fill={(_d: any, i: string) => schemeCategory10ScaleOrdinal(i)}
               onWordClick={(event, d) => {
-                // @ts-ignorelogin
-                router.push(`/topic/${d.text}-${d.id}`);
+                router.push(
+                  // @ts-ignore
+                  `/topic/${d.text}-${d.id}/?color=${encodeURIComponent(
+                    // @ts-ignore
+                    d.color
+                  )}`
+                );
               }}
             />
           </div>

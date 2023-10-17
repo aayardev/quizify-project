@@ -2,11 +2,12 @@
 
 import React from "react";
 import Carousel from "../carousel";
-import QuizCard from "../quiz-card";
+import QuizCard from "../QuizCard";
 import { useQuery } from "react-query";
 import { getTopQuizzes } from "@/services/quiz/api";
-import WithUnderline from "../WithUnderline";
+import WithUnderline from "../wrappers/WithUnderline";
 import { getTopicTopQuizzes } from "@/services";
+import TopicQuizCard from "./TopicQuizCard";
 
 type Props = {
   quizzes: API.TQuiz[];
@@ -24,15 +25,13 @@ const TopicTopQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
   });
   return (
     <div className="mt-10">
-      <WithUnderline className="mb-4">
-        <h2 className="text-xl sm:text-2xl font-bold tracking-tighter  relative inline-block ">
-          Top Quizzes
-        </h2>
-      </WithUnderline>
+      <h2 className="text-lg sm:text-xl font-bold tracking-tighter  relative inline-block ">
+        Top Quizzes
+      </h2>
 
-      <Carousel className="mt-8">
+      <Carousel className="mt-4">
         {quizzes?.map((quiz) => (
-          <QuizCard quiz={quiz} key={quiz.id} />
+          <TopicQuizCard quiz={quiz} key={quiz.id} />
         ))}
       </Carousel>
     </div>

@@ -6,6 +6,7 @@ import {
   type CSSProperties,
   useState,
   useRef,
+  useEffect,
 } from "react";
 import { useDropzone } from "react-dropzone";
 import { useToast } from "./ui/use-toast";
@@ -83,7 +84,25 @@ export default function Dropzone({
     | undefined
   >(undefined);
 
-  const { setValue, resetField } = useFormContext();
+  const {
+    setValue,
+    resetField,
+    formState: { isSubmitSuccessful },
+  } = useFormContext();
+
+  console.log(isSubmitSuccessful, "isSubmitSuccessful");
+
+  const deleteSelectedImage = useCallback(() => {
+    setImage(undefined);
+    setValue("profile_image", undefined);
+    if (ref.current) {
+      ref.current.files = null;
+    }
+  }, [setValue]);
+  useEffect(() => {
+    if (isSubmitSuccessful) deleteSelectedImage();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isSubmitSuccessful]);
 
   const { toast } = useToast();
   const onDrop = useCallback(
@@ -132,14 +151,6 @@ export default function Dropzone({
   );
 
   const ref = useRef<HTMLInputElement | null>(null);
-
-  const deleteSelectedImage = useCallback(() => {
-    setImage(undefined);
-    setValue("profile_image", undefined);
-    if (ref.current) {
-      ref.current.files = null;
-    }
-  }, [setValue]);
 
   const thumb = image ? (
     <div>

@@ -167,7 +167,7 @@ class Quiz(models.Model):
 
     def __str__(self) -> str:
         return "Quiz created by {user} in {topic} topic.".format(
-            user=self.created_by.full_name, topic=self.topic.topic
+            user=self.created_by.full_name, topic=self.topic.name
         )
 
 

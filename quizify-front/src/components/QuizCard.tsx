@@ -1,31 +1,42 @@
+"use client";
+
 import { capitalize } from "@/lib/utils";
-import React from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "./ui/card";
-import UserAvatar from "./UserAvatar";
 import { Info, ThumbsUp, User } from "lucide-react";
-import WithTooltip from "./withTooltip";
+import UserAvatar from "./UserAvatar";
+import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
+import WithTooltip from "@/components/wrappers/withTooltip";
+import { useHover } from "usehooks-ts";
+import { useRef } from "react";
+import Link from "next/link";
 
 type Props = {
   quiz: API.TQuiz;
 };
 
 const QuizCard = ({ quiz }: Props) => {
+  const titleRef = useRef(null);
+  const isHover = useHover(titleRef);
   return (
     <Card
-      style={{
-        backgroundColor: quiz.topic.color,
-      }}
+    // style={{
+    //   backgroundColor: quiz.topic.color,
+    // }}
     >
       <CardHeader>
-        <CardTitle className="text-white">
-          {capitalize(quiz.topic.name)} #{quiz.id}
+        <CardTitle>
+          <Link
+            style={{
+              color: quiz.topic.color,
+              cursor: "pointer",
+              textDecorationStyle: "solid",
+              textDecorationLine: isHover ? "underline" : undefined,
+              textDecorationThickness: "3px",
+            }}
+            ref={titleRef}
+            href={`/quiz/${quiz.topic.name}-${quiz.id}`}
+          >
+            {capitalize(quiz.topic.name)} #{quiz.id}
+          </Link>
         </CardTitle>
       </CardHeader>
       <CardFooter className="flex justify-between">
@@ -43,7 +54,7 @@ const QuizCard = ({ quiz }: Props) => {
               </div>
             }
           >
-            <div className="flex items-center gap-x-0.5 text-white">
+            <div className="flex items-center gap-x-0.5 ">
               <User className="h-4 w-4 " />
               <span>{quiz.participants_count}</span>
             </div>
@@ -56,7 +67,7 @@ const QuizCard = ({ quiz }: Props) => {
               </div>
             }
           >
-            <div className="flex items-center gap-x-0.5 text-white">
+            <div className="flex items-center gap-x-0.5 ">
               <ThumbsUp className="h-4 w-4 " />
               <span>{quiz.likes_count}</span>
             </div>
