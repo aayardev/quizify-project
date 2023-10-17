@@ -21,7 +21,11 @@ export const updateUserProfile = (
   data: FormData,
   config?: AxiosRequestConfig
 ) => {
-  return httpClient.patch<API.TUser>("auth/user/", data, config);
+  return httpClient.patch<API.TUser>("auth/user/", data, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
 };
 
 export const refreshToken = (data: API.TRefreshTokenData) => {

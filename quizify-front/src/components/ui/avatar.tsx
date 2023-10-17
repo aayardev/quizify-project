@@ -7,12 +7,13 @@ import { cn } from "@/lib/utils";
 import { VariantProps, cva } from "class-variance-authority";
 
 const avatarVariants = cva(
-  "relative flex shrink-0 overflow-hidden rounded-full",
+  "relative flex shrink-0 overflow-hidden rounded-full text-xs",
   {
     variants: {
       size: {
         default: "h-10 w-10",
-        sm: "h-6 w-6 text-xs",
+        sm: "h-6 w-6 ",
+        md: "h-8 w-8",
         lg: "h-10 w-10",
       },
     },

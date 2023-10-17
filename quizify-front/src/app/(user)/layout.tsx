@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import { AutoLogoutProvider } from "@/components/auto-logout-provider";
+import { AutoLogoutProvider } from "@/components/AutoLogoutProvider";
 import React, { type ReactNode } from "react";
 
 type Props = {

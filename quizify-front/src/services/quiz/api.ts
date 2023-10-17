@@ -48,3 +48,7 @@ export const dislikeQuiz = (
 ) => {
   return httpClient.delete(`quizzes/${quiz_id}/likes/${like_id}/`, config);
 };
+
+export const retrieveQuiz = (quiz_id: number, config?: AxiosRequestConfig) => {
+  return httpClient.get<API.TQuiz>(`quizzes/${quiz_id}`, config);
+};

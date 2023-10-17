@@ -52,6 +52,7 @@
     "react-hook-form": "^7.46.1",
     "react-query": "^3.39.3",
     "react-slick": "^0.29.0",
+    "react-social-icons": "^6.4.0",
     "react-spinners": "^0.13.8",
     "slick-carousel": "^1.8.1",
     "tailwind-merge": "^1.14.0",

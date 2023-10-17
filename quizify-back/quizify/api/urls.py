@@ -31,4 +31,9 @@ urlpatterns = [
         views.dislike_quiz_destroy_api_view,
         name="quiz_dislike",
     ),
+    path(
+        "quizzes/<int:quiz_id>/",
+        views.quiz_retrieve_api_view,
+        name="quiz_retrieve",
+    ),
 ]

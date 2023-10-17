@@ -3,8 +3,9 @@
 import UserAvatar from "@/components/UserAvatar";
 import { Card, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import WithTooltip from "@/components/wrappers/withTooltip";
+import useLikeQuiz from "@/hooks/use-like-quiz";
 import { dislikeQuiz, likeQuiz } from "@/services";
-import { Info, ThumbsUp, User } from "lucide-react";
+import { Heart, Info, ThumbsUp, User } from "lucide-react";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useQueryClient, useMutation } from "react-query";
@@ -18,54 +19,9 @@ const TopicQuizCard = ({ quiz }: Props) => {
   const titleRef = useRef(null);
   const isHover = useHover(titleRef);
 
-  const queryClient = useQueryClient();
+  const { likesCount, isLiked, likeId, isLiking, isDisliking, like, dislike } =
+    useLikeQuiz(quiz);
 
-  const [likesCount, setLikesCount] = useState(quiz.likes_count);
-  const [isLiked, setIsLiked] = useState(quiz.is_liked);
-  const [likeId, setLikeId] = useState(quiz.like_id);
-
-  useEffect(() => {
-    setLikesCount(quiz.likes_count);
-  }, [quiz.likes_count]);
-
-  useEffect(() => {
-    setIsLiked(quiz.is_liked);
-  }, [quiz.is_liked]);
-
-  useEffect(() => {
-    setLikeId(quiz.like_id);
-  }, [quiz.like_id]);
-
-  const { mutate: like, isLoading: isLiking } = useMutation<{ id: number }>({
-    mutationFn: async () => {
-      const res = await likeQuiz(quiz.id);
-      return res.data;
-    },
-    onSuccess: ({ id }) => {
-      setLikeId(id);
-      setLikesCount((prev) => prev + 1);
-      setIsLiked(true);
-      queryClient.invalidateQueries({ queryKey: ["topic-top-quizzes"] });
-      queryClient.invalidateQueries({
-        queryKey: ["topic-latest-quizzes"],
-      });
-    },
-  });
-
-  const { mutate: dislike, isLoading: isDisliking } = useMutation({
-    mutationFn: () => {
-      return dislikeQuiz(quiz.id, likeId!);
-    },
-    onSuccess: () => {
-      setLikeId(null);
-      setLikesCount((prev) => prev - 1);
-      setIsLiked(false);
-      queryClient.invalidateQueries({ queryKey: ["topic-top-quizzes"] });
-      queryClient.invalidateQueries({
-        queryKey: ["topic-latest-quizzes"],
-      });
-    },
-  });
   return (
     <Card
     // style={{
@@ -86,7 +42,9 @@ const TopicQuizCard = ({ quiz }: Props) => {
               textDecorationColor: quiz.topic.color,
             }}
             ref={titleRef}
-            href={`/quiz/${quiz.topic.name}-${quiz.id}`}
+            href={`/quiz/${quiz.topic.name}-${
+              quiz.id
+            }/?color=${encodeURIComponent(quiz.topic.color)}`}
           >
             #{quiz.id}
           </Link>
@@ -95,7 +53,11 @@ const TopicQuizCard = ({ quiz }: Props) => {
       <CardFooter className="flex justify-between">
         <div className="flex items-center gap-x-1.5">
           <UserAvatar size="sm" user={quiz.created_by} />{" "}
-          <span className="text-sm">{quiz.created_by.full_name}</span>
+          <span className="text-sm">
+            {quiz.created_by.full_name.trim()
+              ? quiz.created_by.full_name
+              : "Quizify user"}
+          </span>
         </div>
 
         <div className="flex items-center gap-x-2.5">
@@ -134,7 +96,7 @@ const TopicQuizCard = ({ quiz }: Props) => {
             disabled={isLiking || isDisliking}
           >
             <div className="flex items-center gap-x-0.5 ">
-              <ThumbsUp
+              <Heart
                 className="h-4 w-4"
                 fill={isLiked ? "currentColor" : "none"}
               />

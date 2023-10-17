@@ -20,7 +20,9 @@ const UserAvatar = ({ user, size = "default" }: Props) => {
               {user.first_name[0].toUpperCase() +
                 user.last_name[0].toUpperCase()}
             </>
-          ) : null}
+          ) : (
+            "QU"
+          )}
         </AvatarFallback>
       )}
     </Avatar>

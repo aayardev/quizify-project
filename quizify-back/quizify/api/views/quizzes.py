@@ -143,3 +143,13 @@ class DislikeQuizDestroyAPIView(generics.DestroyAPIView):
 
 
 dislike_quiz_destroy_api_view = DislikeQuizDestroyAPIView.as_view()
+
+
+class QuizRetrieveAPIView(generics.RetrieveAPIView):
+    serializer_class = QuizReadSerializer
+    permission_classes = [permissions.AllowAny]
+    lookup_url_kwarg = "quiz_id"
+    queryset = Quiz.objects.all()
+
+
+quiz_retrieve_api_view = QuizRetrieveAPIView.as_view()

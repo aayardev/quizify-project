@@ -2,7 +2,7 @@
 import { getLatestQuizzes } from "@/services/quiz/api";
 import React from "react";
 import { useQuery } from "react-query";
-import Carousel from "../carousel";
+import Carousel from "../Carousel";
 import QuizCard from "../QuizCard";
 import { useTheme } from "next-themes";
 import WithUnderline from "../wrappers/WithUnderline";

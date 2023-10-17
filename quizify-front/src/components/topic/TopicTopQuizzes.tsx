@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import Carousel from "../carousel";
+import Carousel from "../Carousel";
 import QuizCard from "../QuizCard";
 import { useQuery } from "react-query";
 import { getTopQuizzes } from "@/services/quiz/api";
