@@ -1,6 +1,6 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "../carousel";
 import QuizCard from "../QuizCard";
 import { useQuery } from "react-query";
@@ -17,7 +17,7 @@ const TopQuizzes = ({
   quizzes: initialQuizzes,
   showFilters = false,
 }: Props) => {
-  const [filter, setFilter] = React.useState("all");
+  const [filter, setFilter] = useState("all");
   const {
     data: quizzes,
     isLoading,

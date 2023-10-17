@@ -1,6 +1,6 @@
 "use client";
 import { getLatestQuizzes } from "@/services/quiz/api";
-import React from "react";
+import React, { useState } from "react";
 import { useQuery } from "react-query";
 import Carousel from "../carousel";
 import QuizCard from "../QuizCard";
@@ -17,14 +17,8 @@ const LatestQuizzes = ({
   quizzes: initialQuizzes,
   showFilters = false,
 }: Props) => {
-  const { theme } = useTheme();
-
-  const [filter, setFilter] = React.useState("all");
-  const {
-    data: quizzes,
-    isLoading,
-    isError,
-  } = useQuery({
+  const [filter, setFilter] = useState("all");
+  const { data: quizzes } = useQuery({
     queryKey: ["latest-quizzes", filter],
     queryFn: async () => {
       const res = getLatestQuizzes(

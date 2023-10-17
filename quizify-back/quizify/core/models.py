@@ -165,6 +165,9 @@ class Quiz(models.Model):
     def likes_count(self):
         return self.likes.all().count()
 
+    def is_liked(self, user):
+        return self.likes.filter(user=user).exists()
+
     def __str__(self) -> str:
         return "Quiz created by {user} in {topic} topic.".format(
             user=self.created_by.full_name, topic=self.topic.name
@@ -201,7 +204,7 @@ class LikedQuiz(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.quiz.topic.topic + " liked by " + self.user.email
+        return self.quiz.topic.name + " liked by " + self.user.email
 
 
 class Option(models.Model):

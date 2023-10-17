@@ -21,7 +21,7 @@ export const getTopicLatestQuizzes = (
 ) => {
   console.log(params, "params");
   return httpClient.get<API.TGetLatestQuizzesReturnedData>(
-    `topics/${topicId}/latest-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count`,
+    `topics/${topicId}/latest-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count,is_liked,like_id`,
     config
   );
 };
@@ -34,7 +34,7 @@ export const getTopicTopQuizzes = (
   config?: AxiosRequestConfig
 ) => {
   return httpClient.get<API.TGetTopQuizzesReturnedData>(
-    `topics/${topicId}/top-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count`,
+    `topics/${topicId}/top-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count,is_liked,like_id`,
     config
   );
 };

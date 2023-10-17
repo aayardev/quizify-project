@@ -3,10 +3,13 @@ from rest_framework.response import Response
 from api.serializers import (
     QuizCreateSerializer,
     QuizReadSerializer,
+    LikedQuizModelSerializer,
 )
 from api.utils.gpt import create_chat_completion
-from core.models import Topic, Quiz, Question, Option
+from core.models import Topic, Quiz, Question, Option, LikedQuiz
 from django.db.models import Count
+from django.shortcuts import get_object_or_404
+from api.permissions import CanLikeQuiz
 
 
 class CreateQuizAPIView(views.APIView):
@@ -115,3 +118,28 @@ class TopQuizzesListAPIView(generics.ListAPIView):
 
 
 top_quizzes_list_api_view = TopQuizzesListAPIView.as_view()
+
+
+class LikeQuizCreateAPIView(generics.CreateAPIView):
+    serializer_class = LikedQuizModelSerializer
+    permission_classes = [permissions.IsAuthenticated, CanLikeQuiz]
+
+    def perform_create(self, serializer):
+        quiz = get_object_or_404(Quiz, id=self.kwargs["quiz_id"])
+        serializer.save(user=self.request.user, quiz=quiz)
+
+
+like_quiz_create_api_view = LikeQuizCreateAPIView.as_view()
+
+
+class DislikeQuizDestroyAPIView(generics.DestroyAPIView):
+    permission_classes = [permissions.IsAuthenticated]
+    lookup_url_kwarg = "like_id"
+
+    def get_queryset(self):
+        return LikedQuiz.objects.filter(
+            user=self.request.user, quiz=self.kwargs["quiz_id"]
+        )
+
+
+dislike_quiz_destroy_api_view = DislikeQuizDestroyAPIView.as_view()

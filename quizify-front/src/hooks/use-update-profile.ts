@@ -40,7 +40,6 @@ export const UpdateProfileSchema = z.object({
 export default function useUpdateProfile(
   defaultValues: API.TUpdateUserProfileData
 ) {
-  const updateProfile = useService("updateProfile");
   const { toast } = useToast();
   const { data: session, update } = useSession();
 
@@ -66,12 +65,7 @@ export default function useUpdateProfile(
       if (data.profile_image)
         formData.append("profile_image", data.profile_image as File);
 
-      const res = await updateProfile(formData, {
-        headers: {
-          Authorization: `Bearer ${session?.access}`,
-          "Content-Type": "multipart/form-data",
-        },
-      });
+      const res = await updateUserProfile(formData);
       update({ user: res.data });
       toast({
         title: "Success",

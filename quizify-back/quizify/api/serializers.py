@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 from rest_framework import serializers
 from rest_flex_fields import FlexFieldsModelSerializer
 
-from core.models import Quiz, Question, Option, Topic
+from core.models import Quiz, Question, Option, Topic, LikedQuiz
 
 User = get_user_model()
 
@@ -56,9 +56,27 @@ class QuizReadSerializer(FlexFieldsModelSerializer):
     type = serializers.SerializerMethodField()
     participants_count = serializers.IntegerField()
     likes_count = serializers.IntegerField()
+    is_liked = serializers.SerializerMethodField()
+    like_id = serializers.SerializerMethodField()
 
     def get_type(self, quiz):
         return quiz.get_type_display()
+
+    def get_is_liked(self, quiz):
+        user = None
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if user.is_authenticated:
+                return quiz.is_liked(user)
+        return False
+
+    def get_like_id(self, quiz):
+        if self.get_is_liked(quiz):
+            user = self.context.get("request").user
+            return LikedQuiz.objects.get(user=user, quiz=quiz).id
+
+        return None
 
     class Meta:
         model = Quiz
@@ -70,4 +88,13 @@ class QuizReadSerializer(FlexFieldsModelSerializer):
             "questions",
             "participants_count",
             "likes_count",
+            "is_liked",
+            "like_id",
         ]
+
+
+class LikedQuizModelSerializer(FlexFieldsModelSerializer):
+    class Meta:
+        model = LikedQuiz
+        fields = "__all__"
+        read_only_fields = ["id", "user", "quiz", "created_at"]

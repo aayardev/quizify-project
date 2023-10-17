@@ -12,6 +12,8 @@ declare namespace API {
     created_by: API.TUser;
     participants_count: number;
     likes_count: number;
+    is_liked: boolean;
+    like_id: number | null;
   };
 
   type TGetLatestQuizzesReturnedData = TResponse<TQuiz>;

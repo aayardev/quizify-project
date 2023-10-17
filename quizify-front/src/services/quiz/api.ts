@@ -16,7 +16,7 @@ export const getLatestQuizzes = (
 ) => {
   console.log(params, "params");
   return httpClient.get<API.TGetLatestQuizzesReturnedData>(
-    `latest-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count`,
+    `latest-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count,is_liked,like_id`,
     config
   );
 };
@@ -28,7 +28,23 @@ export const getTopQuizzes = (
   config?: AxiosRequestConfig
 ) => {
   return httpClient.get<API.TGetTopQuizzesReturnedData>(
-    `top-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count`,
+    `top-quizzes/?page=${page}&size=${size}${`&${params}`}&fields=id,created_by,topic,participants_count,likes_count,is_liked,like_id`,
     config
   );
+};
+
+export const likeQuiz = (quiz_id: number, config?: AxiosRequestConfig) => {
+  return httpClient.post<{ id: number }>(
+    `quizzes/${quiz_id}/like/`,
+    {},
+    config
+  );
+};
+
+export const dislikeQuiz = (
+  quiz_id: number,
+  like_id: number,
+  config?: AxiosRequestConfig
+) => {
+  return httpClient.delete(`quizzes/${quiz_id}/likes/${like_id}/`, config);
 };

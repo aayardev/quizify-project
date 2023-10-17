@@ -6,8 +6,10 @@ import UserAvatar from "./UserAvatar";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
 import WithTooltip from "@/components/wrappers/withTooltip";
 import { useHover } from "usehooks-ts";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
+import { useMutation, useQueryClient } from "react-query";
+import { dislikeQuiz, likeQuiz } from "@/services";
 
 type Props = {
   quiz: API.TQuiz;
@@ -16,6 +18,56 @@ type Props = {
 const QuizCard = ({ quiz }: Props) => {
   const titleRef = useRef(null);
   const isHover = useHover(titleRef);
+
+  const queryClient = useQueryClient();
+
+  const [likesCount, setLikesCount] = useState(quiz.likes_count);
+  const [isLiked, setIsLiked] = useState(quiz.is_liked);
+  const [likeId, setLikeId] = useState(quiz.like_id);
+
+  useEffect(() => {
+    setLikesCount(quiz.likes_count);
+  }, [quiz.likes_count]);
+
+  useEffect(() => {
+    setIsLiked(quiz.is_liked);
+  }, [quiz.is_liked]);
+
+  useEffect(() => {
+    setLikeId(quiz.like_id);
+  }, [quiz.like_id]);
+
+  const { mutate: like, isLoading: isLiking } = useMutation<{ id: number }>({
+    mutationFn: async () => {
+      const res = await likeQuiz(quiz.id);
+      return res.data;
+    },
+    onSuccess: ({ id }) => {
+      setLikeId(id);
+      setLikesCount((prev) => prev + 1);
+      setIsLiked(true);
+      queryClient.invalidateQueries({ queryKey: ["top-quizzes"] });
+      queryClient.invalidateQueries({
+        queryKey: ["latest-quizzes"],
+      });
+    },
+  });
+
+  const { mutate: dislike, isLoading: isDisliking } = useMutation({
+    mutationFn: () => {
+      return dislikeQuiz(quiz.id, likeId!);
+    },
+    onSuccess: () => {
+      setLikeId(null);
+      setLikesCount((prev) => prev - 1);
+      setIsLiked(false);
+      queryClient.invalidateQueries({ queryKey: ["top-quizzes"] });
+      queryClient.invalidateQueries({
+        queryKey: ["latest-quizzes"],
+      });
+    },
+  });
+
   return (
     <Card
     // style={{
@@ -59,19 +111,31 @@ const QuizCard = ({ quiz }: Props) => {
               <span>{quiz.participants_count}</span>
             </div>
           </WithTooltip>
-          <WithTooltip
+          {/* <WithTooltip
             content={
               <div className="flex items-center gap-x-1.5">
                 <Info className="h-3.5 w-3.5 " />
                 <span>Likes count</span>
               </div>
             }
+          ></WithTooltip> */}
+
+          <button
+            onClick={() => {
+              if (!isLiked) return like();
+              if (likeId) dislike();
+            }}
+            disabled={isLiking || isDisliking}
           >
             <div className="flex items-center gap-x-0.5 ">
-              <ThumbsUp className="h-4 w-4 " />
-              <span>{quiz.likes_count}</span>
+              <ThumbsUp
+                className="h-4 w-4"
+                fill={isLiked ? "currentColor" : "none"}
+                // stroke={isLiked ? "currentColor" : "currentColor"}
+              />
+              <span>{likesCount}</span>
             </div>
-          </WithTooltip>
+          </button>
         </div>
       </CardFooter>
     </Card>

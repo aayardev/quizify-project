@@ -1,4 +1,4 @@
-import { getServerToken } from "@/lib/next-auth";
+import { getServerAuthSession, getServerToken } from "@/lib/next-auth";
 
 import Navbar from "@/components/Navbar";
 import LatestQuizzes from "@/components/home/LatestQuizzes";
