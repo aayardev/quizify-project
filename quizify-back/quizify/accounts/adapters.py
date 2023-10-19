@@ -15,7 +15,7 @@ class AccountAdapter(DefaultAccountAdapter):
 
     def get_email_confirmation_url(self, request, emailconfirmation):
         # Replace 'https://localhost:3000' with your actual frontend URL
-        return "{domain}/auth/verify-email/{key}".format(
+        return "{domain}/verify-email/{key}".format(
             domain=settings.FRONTEND_URL, key=emailconfirmation.key
         )
 
@@ -26,6 +26,6 @@ class SocialAccountAdapter(DefaultSocialAccountAdapter):
 
     def get_email_confirmation_url(self, request, emailconfirmation):
         # Replace 'https://localhost:3000' with your actual frontend URL
-        return "{domain}/auth/verify-email/{key}".format(
+        return "{domain}/verify-email/{key}".format(
             domain=settings.FRONTEND_URL, key=emailconfirmation.key
         )
