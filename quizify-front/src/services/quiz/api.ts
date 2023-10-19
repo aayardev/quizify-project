@@ -49,6 +49,19 @@ export const dislikeQuiz = (
   return httpClient.delete(`quizzes/${quiz_id}/likes/${like_id}/`, config);
 };
 
-export const retrieveQuiz = (quiz_id: number, config?: AxiosRequestConfig) => {
-  return httpClient.get<API.TQuiz>(`quizzes/${quiz_id}`, config);
+export const retrieveQuiz = (quizId: number, config?: AxiosRequestConfig) => {
+  return httpClient.get<API.TQuiz>(`quizzes/${quizId}`, config);
+};
+
+export const getQuizLatestParticipations = (
+  quizId: number,
+  page: number = 1,
+  size: number = 5,
+  params: string = "",
+  config?: AxiosRequestConfig
+) => {
+  return httpClient.get<API.TParticipations>(
+    `quizzes/${quizId}/latest-participations/?page=${page}&size=${size}${`&${params}`}`,
+    config
+  );
 };

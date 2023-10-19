@@ -74,7 +74,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     @property
     def full_name(self):
-        return self.first_name.capitalize() + " " + self.last_name
+        if self.first_name and self.last_name:
+            return self.first_name.capitalize() + " " + self.last_name
+
+        return ""
 
 
 class Topic(models.Model):

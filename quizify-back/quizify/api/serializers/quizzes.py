@@ -1,7 +1,9 @@
 from rest_framework import serializers
 from rest_flex_fields import FlexFieldsModelSerializer
 
-from core.models import Quiz, Question, Option, LikedQuiz
+import timeago
+
+from core.models import Quiz, Question, Option, LikedQuiz, Participation
 from .users import UserModelSerializer
 from .topics import TopicModelSerializer
 
@@ -73,3 +75,15 @@ class LikedQuizModelSerializer(FlexFieldsModelSerializer):
         model = LikedQuiz
         fields = "__all__"
         read_only_fields = ["id", "user", "quiz", "created_at"]
+
+
+class ParticipationModelSerializer(FlexFieldsModelSerializer):
+    user = UserModelSerializer()
+    timesince = serializers.SerializerMethodField()
+
+    def get_timesince(self, participation):
+        return timeago.format(participation.started_at.replace(tzinfo=None))
+
+    class Meta:
+        model = Participation
+        fields = ["id", "user", "timesince"]

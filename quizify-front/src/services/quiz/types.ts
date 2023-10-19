@@ -20,4 +20,7 @@ declare namespace API {
   type TGetTopQuizzesReturnedData = TResponse<TQuiz>;
 
   type TCreateQuizData = Record<"topic", string>;
+
+  type TParticipation = { id: number; user: API.TUser; timesince: string };
+  type TParticipations = TResponse<TParticipation>;
 }

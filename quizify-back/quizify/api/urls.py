@@ -36,4 +36,9 @@ urlpatterns = [
         views.quiz_retrieve_api_view,
         name="quiz_retrieve",
     ),
+    path(
+        "quizzes/<int:quiz_id>/latest-participations/",
+        views.quiz_latest_participations_list_api_view,
+        name="quiz_latest_participations",
+    ),
 ]

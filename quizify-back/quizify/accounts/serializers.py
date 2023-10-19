@@ -55,7 +55,6 @@ class CustomLoginSerializer(LoginSerializer):
         try:
             LoginSerializer.validate_email_verification_status(user, email)
         except serializers.ValidationError as e:
-            print(type(e.detail[0]), e.detail, e.detail[0], "type")
             raise serializers.ValidationError(
                 {
                     "message": e.detail[0].__str__(),

@@ -4,9 +4,10 @@ from api.serializers import (
     QuizCreateSerializer,
     QuizReadSerializer,
     LikedQuizModelSerializer,
+    ParticipationModelSerializer,
 )
 from api.utils.gpt import create_chat_completion
-from core.models import Topic, Quiz, Question, Option, LikedQuiz
+from core.models import Topic, Quiz, Question, Option, LikedQuiz, Participation
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from api.permissions import CanLikeQuiz
@@ -153,3 +154,16 @@ class QuizRetrieveAPIView(generics.RetrieveAPIView):
 
 
 quiz_retrieve_api_view = QuizRetrieveAPIView.as_view()
+
+
+class LatestParticipationsListAPIView(generics.ListAPIView):
+    serializer_class = ParticipationModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Participation.objects.filter(quiz=self.kwargs["quiz_id"]).order_by(
+            "-started_at"
+        )
+
+
+quiz_latest_participations_list_api_view = LatestParticipationsListAPIView.as_view()

@@ -1,39 +1,35 @@
-import React, { useCallback } from "react";
-import { Button } from "./ui/button";
+"use client";
+
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import {
-  ClipboardCheck,
-  Copy,
-  Facebook,
-  Heart,
-  Moon,
-  Share2,
-  Sun,
-  Twitter,
-} from "lucide-react";
+import { ClipboardCheck, Copy, Share2 } from "lucide-react";
+import Link from "next/link";
+import { useCallback } from "react";
 import { SocialIcon } from "react-social-icons";
 import { useToast } from "./ui/use-toast";
-import Link from "next/link";
+import { useCopyToClipboard } from "usehooks-ts";
 
 const ShareMenu = () => {
   const { toast } = useToast();
 
+  const [_value, copy] = useCopyToClipboard();
+
   const copyToClipboard = useCallback(() => {
+    copy(window.location.href);
     toast({
-      title: "Success",
+      title: "Copied!!",
       description: (
         <>
-          <ClipboardCheck className="h-4 w-4 inline-block" /> Copied to
+          <ClipboardCheck className="h-4 w-4 inline-block" /> Link copied to
           clipboard.
         </>
       ),
     });
-  }, [toast]);
+  }, [toast, copy]);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
