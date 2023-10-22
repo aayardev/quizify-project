@@ -1,12 +1,9 @@
 "use client";
 
-import React from "react";
-import Carousel from "../Carousel";
-import QuizCard from "../QuizCard";
-import { useQuery } from "react-query";
-import { getTopQuizzes } from "@/services/quiz/api";
-import WithUnderline from "../wrappers/WithUnderline";
 import { getTopicTopQuizzes } from "@/services";
+import { useQuery } from "react-query";
+import Carousel from "../Carousel";
+import EmptyData from "../EmptyData";
 import TopicQuizCard from "./TopicQuizCard";
 
 type Props = {
@@ -15,7 +12,7 @@ type Props = {
 };
 
 const TopicTopQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
-  const { data: quizzes } = useQuery({
+  const { data: quizzes, isSuccess } = useQuery({
     queryKey: ["topic-top-quizzes", topicId],
     queryFn: async () => {
       const res = getTopicTopQuizzes(topicId, undefined, 8);
@@ -29,11 +26,13 @@ const TopicTopQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
         Top Quizzes
       </h2>
 
-      <Carousel className="mt-4">
+      <Carousel className="mt-4" showSeeAllBtn={(quizzes?.length ?? 0) > 8}>
         {quizzes?.map((quiz) => (
           <TopicQuizCard quiz={quiz} key={quiz.id} />
         ))}
       </Carousel>
+
+      {isSuccess && quizzes.length === 0 ? <EmptyData /> : null}
     </div>
   );
 };

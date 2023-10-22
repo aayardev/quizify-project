@@ -41,4 +41,9 @@ urlpatterns = [
         views.quiz_latest_participations_list_api_view,
         name="quiz_latest_participations",
     ),
+    path(
+        "quizzes/<int:quiz_id>/top-participations/",
+        views.quiz_top_participations_list_api_view,
+        name="quiz_top_participations",
+    ),
 ]

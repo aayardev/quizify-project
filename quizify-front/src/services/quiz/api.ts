@@ -65,3 +65,16 @@ export const getQuizLatestParticipations = (
     config
   );
 };
+
+export const getQuizTopParticipations = (
+  quizId: number,
+  page: number = 1,
+  size: number = 5,
+  params: string = "",
+  config?: AxiosRequestConfig
+) => {
+  return httpClient.get<API.TParticipations>(
+    `quizzes/${quizId}/top-participations/?page=${page}&size=${size}${`&${params}`}`,
+    config
+  );
+};

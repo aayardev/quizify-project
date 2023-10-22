@@ -1,15 +1,14 @@
 "use client";
 
-import React, { useEffect } from "react";
-import SignInButton from "./SignInButton";
-import UserAccountNav from "./UserAccountNav";
+import { Plus } from "lucide-react";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
 import ModeToggle from "./ModeToggle";
 import QuizifyLogo from "./QuizifyLogo";
-import { useSession } from "next-auth/react";
+import SignInButton from "./SignInButton";
+import UserAccountNav from "./UserAccountNav";
+import { buttonVariants } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
-import { redirect } from "next/navigation";
-import { Button, buttonVariants } from "./ui/button";
-import Link from "next/link";
 
 type Props = {};
 
@@ -24,7 +23,8 @@ const Navbar = (props: Props) => {
         <div className="flex items-center gap-x-3">
           {session?.user && (
             <Link href="/quiz" className={buttonVariants()}>
-              + New quizz
+              <Plus className="w-4 h-4 mr-1 inline-block" />
+              <span className="hidden sm:inline"> New quizz</span>
             </Link>
           )}
 

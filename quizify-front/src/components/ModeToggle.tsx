@@ -14,9 +14,8 @@ import {
 import ModeToggleCheck from "./ModeToggleCheck";
 
 const ModeToggle = () => {
-  const { theme, setTheme } = useTheme();
+  const { setTheme } = useTheme();
 
-  console.log(theme);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

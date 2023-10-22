@@ -167,3 +167,16 @@ class LatestParticipationsListAPIView(generics.ListAPIView):
 
 
 quiz_latest_participations_list_api_view = LatestParticipationsListAPIView.as_view()
+
+
+class TopParticipationsListAPIView(generics.ListAPIView):
+    serializer_class = ParticipationModelSerializer
+    permission_classes = [permissions.AllowAny]
+
+    def get_queryset(self):
+        return Participation.objects.filter(quiz=self.kwargs["quiz_id"]).order_by(
+            "score"
+        )
+
+
+quiz_top_participations_list_api_view = TopParticipationsListAPIView.as_view()

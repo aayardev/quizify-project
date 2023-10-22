@@ -27,12 +27,8 @@ export default function useLogin(onEmailNotVerified: (email: string) => void) {
   const searchParams = useSearchParams();
   const router = useRouter();
   const { toast } = useToast();
-  // const callbackUrl =
-  //   searchParams.get("callbackUrl") === "/"
-  //     ? "/u/dashboard"
-  //     : searchParams.get("callbackUrl") || "/u/dashboard";
 
-  const callbackUrl = searchParams.get("callbackUrl") || "/u/dashboard/";
+  const callbackUrl = searchParams.get("callbackUrl") || "/";
 
   const form = useForm<API.TCredentials>({
     resolver: zodResolver(LoginSchema),

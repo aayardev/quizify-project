@@ -185,6 +185,7 @@ class Participation(models.Model):
         Quiz, on_delete=models.CASCADE, related_name="participants"
     )
     started_at = models.DateTimeField(auto_now_add=True)
+    score = models.PositiveIntegerField(default=0)
 
 
 class Question(models.Model):

@@ -13,7 +13,7 @@ const QuizSidebar = ({ quiz }: Props) => {
   const { isLiked, likeId, isLiking, isDisliking, like, dislike } =
     useLikeQuiz(quiz);
   return (
-    <div>
+    <div className="sticky right-0 top-24 hidden md:block">
       <div className="flex items-center justify-end gap-x-2.5 mb-4">
         <ShareMenu />
         <button
@@ -32,7 +32,7 @@ const QuizSidebar = ({ quiz }: Props) => {
           </div>
         </button>
       </div>
-      <StartQuizCard quiz={quiz} />
+      <StartQuizCard viewport="desktop" />
     </div>
   );
 };

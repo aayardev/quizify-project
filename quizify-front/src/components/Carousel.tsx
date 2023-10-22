@@ -2,14 +2,19 @@
 
 import {
   ChevronLeftCircleIcon,
-  ChevronRight,
   ChevronRightCircleIcon,
+  Plus,
+  PlusCircleIcon,
 } from "lucide-react";
 import BaseCarousel, { type CarouselProps } from "nuka-carousel";
-import React, { type ReactNode } from "react";
 import { useMediaQuery } from "usehooks-ts";
+import { Card } from "./ui/card";
 
-const Carousel = ({ children, ...props }: CarouselProps) => {
+type Props = CarouselProps & {
+  showSeeAllBtn: boolean;
+};
+
+const Carousel = ({ children, showSeeAllBtn = false, ...props }: Props) => {
   const sm = useMediaQuery("(max-width: 639px)");
   const md = useMediaQuery("(max-width: 767px)");
   const lg = useMediaQuery("(max-width: 1023px)");
@@ -52,6 +57,14 @@ const Carousel = ({ children, ...props }: CarouselProps) => {
       renderCenterCenterControls={() => null}
     >
       {children}
+      {showSeeAllBtn && (
+        <Card className="h-full flex items-center justify-center">
+          <button className="text-sm mt-1.5 font-medium ">
+            <PlusCircleIcon className="w-4 h-4 inline-block mr-1" />
+            See all
+          </button>
+        </Card>
+      )}
     </BaseCarousel>
   );
 };

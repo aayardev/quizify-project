@@ -8,6 +8,7 @@ import { useTheme } from "next-themes";
 import WithUnderline from "../wrappers/WithUnderline";
 import { getTopicLatestQuizzes } from "@/services";
 import TopicQuizCard from "./TopicQuizCard";
+import EmptyData from "../EmptyData";
 
 type Props = {
   quizzes: API.TQuiz[];
@@ -15,7 +16,7 @@ type Props = {
 };
 
 const TopicLatestQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
-  const { data: quizzes } = useQuery({
+  const { data: quizzes, isSuccess } = useQuery({
     queryKey: ["topic-latest-quizzes", topicId],
     queryFn: async () => {
       const res = getTopicLatestQuizzes(topicId, undefined, 8);
@@ -29,11 +30,13 @@ const TopicLatestQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
         Latest Quizzes
       </h2>
 
-      <Carousel className="mt-4">
+      <Carousel className="mt-4" showSeeAllBtn={(quizzes?.length ?? 0) > 8}>
         {quizzes?.map((quiz) => (
           <TopicQuizCard quiz={quiz} key={quiz.id} />
         ))}
       </Carousel>
+
+      {isSuccess && quizzes.length === 0 ? <EmptyData /> : null}
     </div>
   );
 };

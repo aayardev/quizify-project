@@ -2,49 +2,36 @@
 
 import { capitalize } from "@/lib/utils";
 import Link from "next/link";
-import { useParams, useSearchParams } from "next/navigation";
-import React, { useRef } from "react";
+import { useRef } from "react";
 import { useHover } from "usehooks-ts";
 import UserAvatar from "../UserAvatar";
-import { Heart } from "lucide-react";
-import useLikeQuiz from "@/hooks/use-like-quiz";
-import ShareMenu from "@/components/ShareMenu";
-import StartQuizCard from "./StartQuizCard";
 
 type Props = {
   quiz: API.TQuiz;
 };
 
 const QuizDetailHeader = ({ quiz }: Props) => {
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const { slug } = params;
-  const [topic, id] = (slug as string).split("-");
-  const color = searchParams.get("color");
-
   const topicRef = useRef(null);
   const isHover = useHover(topicRef);
 
-  const { isLiked, likeId, isLiking, isDisliking, like, dislike } =
-    useLikeQuiz(quiz);
   return (
-    <div className="">
+    <div>
       <div className=" w-fit flex justify-between items-start ">
         <h2 className="text-xl sm:text-2xl font-bold tracking-tighter  relative inline-block ">
           A quiz in{" "}
           <Link
             style={{
-              color: color!,
+              color: quiz.topic.color,
               textDecorationStyle: "solid",
               textDecorationLine: isHover ? "underline" : undefined,
               textDecorationThickness: "3px",
             }}
             href={`/topic/${quiz.topic.name}-${
               quiz.topic.id
-            }/?color=${encodeURIComponent(color ?? "")}`}
+            }/?color=${encodeURIComponent(quiz.topic.color)}`}
             ref={topicRef}
           >
-            {capitalize(topic)}
+            {capitalize(quiz.topic.name)}
           </Link>
         </h2>
       </div>
