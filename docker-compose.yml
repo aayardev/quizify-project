@@ -9,7 +9,7 @@ services:
     ports:
       - "3000:3000"
     volumes:
-      - ./quizify-front/quizify:/quizify-front
+      - ./quizify-front:/quizify-front
     depends_on:
       - backend
 
@@ -30,8 +30,8 @@ services:
       - DB_USER=devuser
       - DB_PASS=changeme
       - DEBUG=1
-    # depends_on:
-    #   - db
+    depends_on:
+      - db
 
   db:
     image: postgres:13-alpine

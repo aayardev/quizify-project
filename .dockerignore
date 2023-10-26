@@ -15,6 +15,7 @@ quizify/*/*/*/__pycache__/
 .venv/
 venv/
 env/
+*.db
 
 # Js
 node_modules
