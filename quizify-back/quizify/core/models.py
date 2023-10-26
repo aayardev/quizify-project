@@ -81,39 +81,25 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class Topic(models.Model):
-    # COLORS = [
-    #     "#7fc97f",
-    #     "#beaed4",
-    #     "#fdc086",
-    #     "#ffff99",
-    #     "#386cb0",
-    #     "#f0027f",
-    #     "#bf5b17",
-    #     "#666666",
-    #     "#1f77b4",
-    #     "#ff7f0e",
-    #     "#2ca02c",
-    #     "#d62728",
-    #     "#9467bd",
-    #     "#8c564b",
-    #     "#e377c2",
-    #     "#7f7f7f",
-    #     "#bcbd22",
-    #     "#17becf",
-    # ]
-
     COLORS = [
+        "#7fc97f",
+        "#beaed4",
+        "#fdc086",
+        "#ffff99",
+        "#386cb0",
+        "#f0027f",
+        "#bf5b17",
+        "#666666",
         "#1f77b4",
         "#ff7f0e",
         "#2ca02c",
-        "#ca02cd",
-        "#627289",
-        "#467bd8",
-        "#c564be",
-        "#377c27",
-        "#f7f7fb",
-        "#cbd221",
-        "#7becf",
+        "#d62728",
+        "#9467bd",
+        "#8c564b",
+        "#e377c2",
+        "#7f7f7f",
+        "#bcbd22",
+        "#17becf",
     ]
 
     name = models.CharField(max_length=50, blank=False, null=False)
@@ -171,6 +157,16 @@ class Quiz(models.Model):
     def is_liked(self, user):
         return self.likes.filter(user=user).exists()
 
+    def is_played(self, user):
+        return self.participants.filter(user=user).exists()
+
+    def score(self, user):
+        participation = self.participants.filter(user=user).first()
+        if participation:
+            return participation.score
+        else:
+            return 0
+
     def __str__(self) -> str:
         return "Quiz created by {user} in {topic} topic.".format(
             user=self.created_by.full_name, topic=self.topic.name
@@ -198,8 +194,12 @@ class Question(models.Model):
     )
     body = models.CharField(max_length=500)
 
+    @property
+    def correct_option(self):
+        return self.options.filter(is_correct=True).first()
+
     def __str__(self) -> str:
-        return self.question
+        return self.body
 
 
 class LikedQuiz(models.Model):
@@ -224,7 +224,7 @@ class Option(models.Model):
     is_correct = models.BooleanField(default=False)
 
     def __str__(self) -> str:
-        return self.option
+        return self.body
 
 
 class Answer(models.Model):
@@ -253,4 +253,4 @@ class Answer(models.Model):
     )
 
     def __str__(self) -> str:
-        return self.option.question.question
+        return self.option.question.body

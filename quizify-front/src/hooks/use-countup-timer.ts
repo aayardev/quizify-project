@@ -23,9 +23,9 @@ const useCountupTimer = (): CountupTimer => {
 
   const resetTimer = useCallback(() => {
     setSeconds(0);
-    setMinutes(0);
-    setHours(0);
-    setPaused(true);
+    setMinutes(undefined);
+    setHours(undefined);
+    setPaused(false);
   }, []);
 
   const stopTimer = useCallback(() => {

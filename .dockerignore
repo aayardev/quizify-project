@@ -7,13 +7,14 @@
 *Dockerfile*ss
 
 # Python
-app/__pycache__/
-app/*/__pycache__/
-app/*/*/__pycache__/
-app/*/*/*/__pycache__/
+quizify/__pycache__/
+quizify/*/__pycache__/
+quizify/*/*/__pycache__/
+quizify/*/*/*/__pycache__/
 .env/
 .venv/
 venv/
+env/
 
 # Js
 node_modules

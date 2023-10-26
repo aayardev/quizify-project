@@ -46,4 +46,9 @@ urlpatterns = [
         views.quiz_top_participations_list_api_view,
         name="quiz_top_participations",
     ),
+    path(
+        "check-answer/",
+        views.check_answer_api_view,
+        name="check_answer",
+    ),
 ]

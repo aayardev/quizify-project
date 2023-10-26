@@ -78,3 +78,14 @@ export const getQuizTopParticipations = (
     config
   );
 };
+
+export const checkAnswer = (
+  data: API.TCheckAnswerData,
+  config?: AxiosRequestConfig
+) => {
+  return httpClient.post<API.TCheckAnswerReturnedData>(
+    `check-answer/`,
+    data,
+    config
+  );
+};

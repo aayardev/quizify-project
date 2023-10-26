@@ -7,6 +7,7 @@ import QuizCard from "../QuizCard";
 import TopicFilter from "./TopicFilter";
 import { useTheme } from "next-themes";
 import WithUnderline from "../wrappers/WithUnderline";
+import EmptyData from "../EmptyData";
 
 type Props = {
   quizzes: API.TQuiz[];
@@ -18,7 +19,7 @@ const LatestQuizzes = ({
   showFilters = false,
 }: Props) => {
   const [filter, setFilter] = useState("all");
-  const { data: quizzes } = useQuery({
+  const { data: quizzes,isSuccess } = useQuery({
     queryKey: ["latest-quizzes", filter],
     queryFn: async () => {
       const res = getLatestQuizzes(
@@ -41,11 +42,13 @@ const LatestQuizzes = ({
         <TopicFilter filter={filter} onFilter={(topic) => setFilter(topic)} />
       )}
 
-      <Carousel className="mt-8">
+      <Carousel className="mt-8" showSeeAllBtn={(quizzes?.length ?? 0) > 8}>
         {quizzes?.map((quiz) => (
           <QuizCard quiz={quiz} key={quiz.id} />
         ))}
       </Carousel>
+
+      {isSuccess && quizzes.length === 0 ? <EmptyData /> : null}
     </div>
   );
 };

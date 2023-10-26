@@ -3,7 +3,6 @@ import { EMAIL_NON_VERIFIED_ERROR_CODE } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
@@ -34,7 +33,7 @@ export default function useLogin(onEmailNotVerified: (email: string) => void) {
     resolver: zodResolver(LoginSchema),
     defaultValues: {
       email: "aayar.ismail4@gmail.com",
-      password: "Farid1234",
+      password: "Farid@1234",
     },
   });
 
@@ -51,7 +50,8 @@ export default function useLogin(onEmailNotVerified: (email: string) => void) {
         callbackUrl,
       });
       if (!res?.error) {
-        router.push(callbackUrl);
+        console.log(callbackUrl, "callbackUrl callbackUrl");
+        return router.push(callbackUrl);
       } else {
         let error = JSON.parse(res.error);
         console.log(error);

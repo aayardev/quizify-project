@@ -7,6 +7,7 @@ import { useQuery } from "react-query";
 import { getTopQuizzes } from "@/services/quiz/api";
 import TopicFilter from "./TopicFilter";
 import WithUnderline from "../wrappers/WithUnderline";
+import EmptyData from "../EmptyData";
 
 type Props = {
   quizzes: API.TQuiz[];
@@ -20,8 +21,7 @@ const TopQuizzes = ({
   const [filter, setFilter] = useState("all");
   const {
     data: quizzes,
-    isLoading,
-    isError,
+    isSuccess,
   } = useQuery({
     queryKey: ["top-quizzes", filter],
     queryFn: async () => {
@@ -45,11 +45,13 @@ const TopQuizzes = ({
         <TopicFilter filter={filter} onFilter={(topic) => setFilter(topic)} />
       )}
 
-      <Carousel className="mt-8">
+      <Carousel className="mt-8" showSeeAllBtn={(quizzes?.length ?? 0) > 8}>
         {quizzes?.map((quiz) => (
           <QuizCard quiz={quiz} key={quiz.id} />
         ))}
       </Carousel>
+
+      {isSuccess && quizzes.length === 0 ? <EmptyData /> : null}
     </div>
   );
 };

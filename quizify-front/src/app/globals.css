@@ -85,3 +85,7 @@
     stroke-dashoffset: 400px;
   }
 }
+
+text {
+  cursor: pointer;
+}

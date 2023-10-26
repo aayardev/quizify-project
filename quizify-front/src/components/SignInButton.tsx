@@ -13,6 +13,7 @@ type Props = {
 const SignInButton = ({
   children,
   provider,
+  className = "",
   ...props
 }: ButtonProps & Props) => {
   const handleClick = useCallback(async () => {
@@ -23,7 +24,7 @@ const SignInButton = ({
     }
   }, [provider]);
   return (
-    <Button {...props} onClick={handleClick} className="relative ">
+    <Button {...props} onClick={handleClick} className={`${className}`}>
       {children}
     </Button>
   );

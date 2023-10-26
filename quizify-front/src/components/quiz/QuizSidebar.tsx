@@ -10,7 +10,7 @@ type Props = {
 };
 
 const QuizSidebar = ({ quiz }: Props) => {
-  const { isLiked, likeId, isLiking, isDisliking, like, dislike } =
+  const { likesCount, isLiked, likeId, isLiking, isDisliking, like, dislike } =
     useLikeQuiz(quiz);
   return (
     <div className="sticky right-0 top-24 hidden md:block">
@@ -32,7 +32,13 @@ const QuizSidebar = ({ quiz }: Props) => {
           </div>
         </button>
       </div>
-      <StartQuizCard viewport="desktop" />
+      <StartQuizCard
+        likes_count={likesCount}
+        participants_count={quiz.participants_count}
+        is_played={quiz.is_played}
+        score={quiz.score}
+        viewport="desktop"
+      />
     </div>
   );
 };

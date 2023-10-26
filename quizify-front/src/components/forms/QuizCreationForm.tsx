@@ -27,6 +27,7 @@ import { useMutation } from "react-query";
 import axios, { type AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import { useToast } from "@/components/ui/use-toast";
+import { createQuiz } from "@/services";
 
 type Props = {};
 
@@ -38,21 +39,19 @@ const QuizCreationForm = (props: Props) => {
   const form = useForm<TQuizCreationSchema>({
     resolver: zodResolver(quizCreationSchema),
     defaultValues: {
-      topic: "Art",
-      amount: 3,
-      type: "mcq",
+      topic: "Python",
     },
   });
 
   console.log(form.formState.dirtyFields, form.formState.errors);
 
   const { mutate: getQuestions, isLoading } = useMutation<
-    { gameId: number },
+    API.TQuiz,
     Error | AxiosError,
     TQuizCreationSchema
   >({
-    mutationFn: async ({ amount, topic, type }) => {
-      const response = await axios.post("/api/game", { amount, topic, type });
+    mutationFn: async ({ topic }) => {
+      const response = await createQuiz({ topic });
       return response.data;
     },
   });
@@ -62,12 +61,8 @@ const QuizCreationForm = (props: Props) => {
   const onSubmitHandler: SubmitHandler<TQuizCreationSchema> = useCallback(
     (data) => {
       getQuestions(data, {
-        onSuccess: ({ gameId }) => {
-          if (data.type == "mcq") {
-            return router.push(`/play/mcq/${gameId}`);
-          }
-
-          return router.push(`/play/open_ended/${gameId}`);
+        onSuccess: (quiz) => {
+          return router.push(`/quiz/${quiz.topic.name}-${quiz.id}/play`);
         },
         onError: (error) => {
           if (axios.isAxiosError(error)) {

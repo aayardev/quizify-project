@@ -22,16 +22,13 @@ const LoginPage = async (props: Props) => {
 
   if (session?.user) return redirect("/");
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   w-[90vw] max-w-md">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   w-[90vw] max-w-fit">
       <Card>
         <CardHeader>
           <CardTitle>Welcome to Quizify</CardTitle>
           <CardDescription>
             First time here?{" "}
-            <Link
-              className="underline underline-offset-2"
-              href="/register"
-            >
+            <Link className="underline underline-offset-2" href="/register">
               Sign up
             </Link>
           </CardDescription>

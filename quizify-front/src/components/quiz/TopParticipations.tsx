@@ -16,11 +16,7 @@ const TopParticipations = ({
   participations: initialParticipations,
   quizId,
 }: Props) => {
-  const {
-    data: participations,
-    isSuccess,
-    isLoading,
-  } = useQuery({
+  const { data: participations, isSuccess } = useQuery({
     queryKey: ["quiz-top-partcs", quizId],
     queryFn: async () => {
       const res = getQuizTopParticipations(quizId, undefined, 8);
@@ -39,11 +35,12 @@ const TopParticipations = ({
         showSeeAllBtn={(participations?.length ?? 0) > 8}
       >
         {participations
-          ? participations.map((participation) => (
+          ? participations.map((participation, index) => (
               <ParticipantCard
                 participant={participation.user}
-                timesince={participation.timesince}
                 key={participation.id}
+                showBadge
+                position={index + 1}
               />
             ))
           : null}

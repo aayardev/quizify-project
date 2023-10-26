@@ -21,17 +21,17 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - ./quizify-back:/quizify
+      - ./quizify-back/quizify:/quizify
     command: >
-      sh -c "python ./quizify/manage.py runserver 0.0.0.0:8000"
+      sh -c "python /quizify/manage.py runserver 0.0.0.0:8000"
     environment:
       - DB_HOST=db
       - DB_NAME=devdb
       - DB_USER=devuser
       - DB_PASS=changeme
       - DEBUG=1
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
 
   db:
     image: postgres:13-alpine

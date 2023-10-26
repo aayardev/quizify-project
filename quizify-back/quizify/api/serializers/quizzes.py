@@ -3,15 +3,22 @@ from rest_flex_fields import FlexFieldsModelSerializer
 
 import timeago
 
-from core.models import Quiz, Question, Option, LikedQuiz, Participation
+from core.models import Quiz, Question, Option, LikedQuiz, Participation, Answer
 from .users import UserModelSerializer
 from .topics import TopicModelSerializer
+
+
+class OptionListSerializer(serializers.ListSerializer):
+    def to_representation(self, data):
+        data = data.order_by("?")
+        return super(OptionListSerializer, self).to_representation(data)
 
 
 class OptionModelSerializer(FlexFieldsModelSerializer):
     class Meta:
         model = Option
-        fields = ["body", "is_correct"]
+        fields = ["id", "body"]
+        list_serializer_class = OptionListSerializer
 
 
 class QuestionModelSerializer(FlexFieldsModelSerializer):
@@ -19,7 +26,7 @@ class QuestionModelSerializer(FlexFieldsModelSerializer):
 
     class Meta:
         model = Question
-        fields = ["body", "options"]
+        fields = ["id", "body", "options"]
 
 
 class QuizCreateSerializer(serializers.Serializer):
@@ -35,17 +42,26 @@ class QuizReadSerializer(FlexFieldsModelSerializer):
     likes_count = serializers.IntegerField()
     is_liked = serializers.SerializerMethodField()
     like_id = serializers.SerializerMethodField()
+    is_played = serializers.SerializerMethodField()
+    score = serializers.SerializerMethodField()
 
     def get_type(self, quiz):
         return quiz.get_type_display()
 
     def get_is_liked(self, quiz):
-        user = None
         request = self.context.get("request")
         if request and hasattr(request, "user"):
             user = request.user
             if user.is_authenticated:
                 return quiz.is_liked(user)
+        return False
+
+    def get_is_played(self, quiz):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if user.is_authenticated:
+                return quiz.is_played(user)
         return False
 
     def get_like_id(self, quiz):
@@ -54,6 +70,14 @@ class QuizReadSerializer(FlexFieldsModelSerializer):
             return LikedQuiz.objects.get(user=user, quiz=quiz).id
 
         return None
+
+    def get_score(self, quiz):
+        request = self.context.get("request")
+        if request and hasattr(request, "user"):
+            user = request.user
+            if user.is_authenticated:
+                return quiz.score(user)
+        return 0
 
     class Meta:
         model = Quiz
@@ -67,6 +91,8 @@ class QuizReadSerializer(FlexFieldsModelSerializer):
             "likes_count",
             "is_liked",
             "like_id",
+            "is_played",
+            "score",
         ]
 
 
@@ -86,4 +112,17 @@ class ParticipationModelSerializer(FlexFieldsModelSerializer):
 
     class Meta:
         model = Participation
-        fields = ["id", "user", "timesince"]
+        fields = ["id", "user", "timesince", "score"]
+
+
+class AnswerModelSerializer(FlexFieldsModelSerializer):
+    class Meta:
+        model = Answer
+        fields = ["id", "question", "option"]
+        read_only_fields = ["id"]
+
+
+class CheckAnswerSerializer(serializers.Serializer):
+    question = serializers.IntegerField()
+    option = serializers.IntegerField()
+    is_first = serializers.BooleanField()

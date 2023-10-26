@@ -9,7 +9,7 @@ openai.api_key = os.getenv("OPENAI_API_KEY")
 functions = [
     {
         "name": "create_quiz",
-        "description": "Generate 4 random hard mcq question about a topic.",
+        "description": "Generate 5 random hard mcq question about a topic.",
         "parameters": {
             "type": "object",
             "properties": {

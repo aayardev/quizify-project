@@ -8,6 +8,7 @@ import { useToast } from "../ui/use-toast";
 import Link from "next/link";
 import SignInButton from "../SignInButton";
 import { Separator } from "../ui/separator";
+import { SocialIcon } from "react-social-icons";
 
 const config = [
   {
@@ -56,8 +57,18 @@ const LoginForm = () => {
       </div>
 
       <div className=" flex gap-3 justify-center">
-        <SignInButton provider="google">Sign in with Google</SignInButton>
-        <SignInButton provider="facebook">Sign in with Facebook</SignInButton>
+        <SignInButton provider="google" className="whitespace-nowrap	">
+          <SocialIcon as="div" network="google" className="!h-5 !w-5 mr-1.5" />
+          Sign in with Google
+        </SignInButton>
+        <SignInButton provider="facebook" className="whitespace-nowrap	">
+          <SocialIcon
+            as="div"
+            network="facebook"
+            className="!h-5 !w-5 mr-1.5"
+          />
+          Sign in with Facebook
+        </SignInButton>
       </div>
     </>
   );

@@ -14,6 +14,10 @@ declare namespace API {
     likes_count: number;
     is_liked: boolean;
     like_id: number | null;
+    is_played: boolean;
+    score: number;
+
+    questions: TQuestion[];
   };
 
   type TGetLatestQuizzesReturnedData = TResponse<TQuiz>;
@@ -23,4 +27,12 @@ declare namespace API {
 
   type TParticipation = { id: number; user: API.TUser; timesince: string };
   type TParticipations = TResponse<TParticipation>;
+
+  type TOption = { id: number; body: string };
+  type TQuestion = { id: number; body: string; options: TOption[] };
+
+  type TCheckAnswerData = Record<"question" | "option", number> &
+    Record<"is_first", boolean>;
+
+  type TCheckAnswerReturnedData = Record<"is_correct", boolean>;
 }

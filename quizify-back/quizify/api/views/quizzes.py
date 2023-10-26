@@ -5,9 +5,11 @@ from api.serializers import (
     QuizReadSerializer,
     LikedQuizModelSerializer,
     ParticipationModelSerializer,
+    AnswerModelSerializer,
+    CheckAnswerSerializer,
 )
 from api.utils.gpt import create_chat_completion
-from core.models import Topic, Quiz, Question, Option, LikedQuiz, Participation
+from core.models import Topic, Quiz, Question, Option, LikedQuiz, Participation, Answer
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from api.permissions import CanLikeQuiz
@@ -44,7 +46,7 @@ class CreateQuizAPIView(views.APIView):
             questions = create_chat_completion(
                 system_prompt=system_prompt,
                 user_prompt=[
-                    f"You are to generate 4 random hard mcq question about {topic}."
+                    f"You are to generate 5 random hard mcq question about {topic}."
                 ],
             )
 
@@ -52,6 +54,7 @@ class CreateQuizAPIView(views.APIView):
             quiz = Quiz.objects.create(created_by=request.user, topic=created_topic)
 
             # Create quiz questions and options
+            # random.shuffle(questions)
             for question in questions:
                 created_question = Question.objects.create(
                     body=question["question"], quiz=quiz
@@ -175,8 +178,63 @@ class TopParticipationsListAPIView(generics.ListAPIView):
 
     def get_queryset(self):
         return Participation.objects.filter(quiz=self.kwargs["quiz_id"]).order_by(
-            "score"
+            "-score"
         )
 
 
 quiz_top_participations_list_api_view = TopParticipationsListAPIView.as_view()
+
+
+class AnswerCreateAPIView(generics.CreateAPIView):
+    serializer_class = AnswerModelSerializer
+
+
+answer_create_api_view = AnswerCreateAPIView.as_view()
+
+
+class CheckAnswerAPIView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request):
+        serializer = CheckAnswerSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        question_id = serializer.validated_data["question"]
+        option_id = serializer.validated_data["option"]
+        is_first = serializer.validated_data["is_first"]
+
+        question = get_object_or_404(Question, id=question_id)
+        option = get_object_or_404(Option, id=option_id)
+
+        try:
+            answer = Answer.objects.get(user=request.user, question=question)
+            answer.option = option
+            answer.save()
+
+        except Answer.DoesNotExist:
+            Answer.objects.create(user=request.user, question=question, option=option)
+
+        participation, created = Participation.objects.get_or_create(
+            user=request.user, quiz=option.question.quiz
+        )
+
+        # if the question is the first one in the quiz reset participation score.
+        if is_first:
+            participation.score = 0
+            participation.save()
+
+        data = {
+            "is_correct": option.is_correct,
+            "correct_option": question.correct_option.body,
+        }
+
+        if option.is_correct:
+            participation.score += 1
+            participation.save()
+
+        return Response(
+            data,
+            status=status.HTTP_200_OK,
+        )
+
+
+check_answer_api_view = CheckAnswerAPIView.as_view()
