@@ -26,7 +26,7 @@ const ParticipantCard = ({
             <span className="text-sm  font-medium ">
               {participant.full_name ? participant.full_name : "Quizify User"}
             </span>
-            {showBadge && position && position in [1, 2, 3, 4] ? (
+            {showBadge && position && [1, 2, 3].includes(position) ? (
               // <div
               //   className=" rounded-sm    bg-red-500 text-white text-sm font-bold "
               //   style={{
