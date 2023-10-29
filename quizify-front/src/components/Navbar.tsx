@@ -22,13 +22,16 @@ const Navbar = (props: Props) => {
         <QuizifyLogo />
 
         <div className="flex items-center gap-x-3">
-          {session?.user && (
-            <Link href="/quiz" className={buttonVariants()}>
-              <Plus className="w-4 h-4 mr-1 inline-block" />
-              <span className="hidden sm:inline"> New quizz</span>
-            </Link>
-          )}
-          <Notifications />
+          {session?.user ? (
+            <>
+              <Link href="/quiz" className={buttonVariants()}>
+                <Plus className="w-4 h-4 mr-1 inline-block" />
+                <span className="hidden sm:inline"> New quizz</span>
+              </Link>
+              <Notifications />
+            </>
+          ) : null}
+
           <ModeToggle />
           {status === "loading" ? (
             <Skeleton className="h-10 w-10 rounded-full flex dark:bg-white" />
