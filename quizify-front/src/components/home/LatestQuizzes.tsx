@@ -19,7 +19,7 @@ const LatestQuizzes = ({
   showFilters = false,
 }: Props) => {
   const [filter, setFilter] = useState("all");
-  const { data: quizzes,isSuccess } = useQuery({
+  const { data: quizzes, isSuccess } = useQuery({
     queryKey: ["latest-quizzes", filter],
     queryFn: async () => {
       const res = getLatestQuizzes(
@@ -38,9 +38,9 @@ const LatestQuizzes = ({
           Latest Quizzes
         </h2>
       </WithUnderline>
-      {showFilters && (
+      {showFilters && quizzes?.length ? (
         <TopicFilter filter={filter} onFilter={(topic) => setFilter(topic)} />
-      )}
+      ) : null}
 
       <Carousel className="mt-8" showSeeAllBtn={(quizzes?.length ?? 0) > 8}>
         {quizzes?.map((quiz) => (

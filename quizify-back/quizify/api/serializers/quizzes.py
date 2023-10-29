@@ -1,8 +1,7 @@
 from rest_framework import serializers
 from rest_flex_fields import FlexFieldsModelSerializer
 
-import timeago
-
+from django.contrib.humanize.templatetags.humanize import naturaltime
 from core.models import Quiz, Question, Option, LikedQuiz, Participation, Answer
 from .users import UserModelSerializer
 from .topics import TopicModelSerializer
@@ -108,7 +107,7 @@ class ParticipationModelSerializer(FlexFieldsModelSerializer):
     timesince = serializers.SerializerMethodField()
 
     def get_timesince(self, participation):
-        return timeago.format(participation.started_at.replace(tzinfo=None))
+        return naturaltime(participation.started_at.replace(tzinfo=None))
 
     class Meta:
         model = Participation

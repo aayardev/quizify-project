@@ -33,7 +33,7 @@ SECRET_KEY = "django-insecure-l&@9s7c)w*=$2x&c$29zmc0$44wz7dq$-x5*b8l6ftv)%6ywab
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -60,6 +60,7 @@ INSTALLED_APPS = [
     "stdimage",
     "django_filters",
     "colorfield",
+    "notifications",
     # Local apps
     "core",
     "accounts",

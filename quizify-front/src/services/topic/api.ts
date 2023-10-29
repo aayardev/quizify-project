@@ -38,3 +38,7 @@ export const getTopicTopQuizzes = (
     config
   );
 };
+
+export const subscribeToTopic = (topicId: string) => {
+  return httpClient.post(`topics/${topicId}/subscribe/`);
+};

@@ -154,6 +154,22 @@ class Quiz(models.Model):
     def likes_count(self):
         return self.likes.all().count()
 
+    @property
+    def notification_url(self):
+        return "/quiz/{topic}-{id}".format(topic=self.topic.name, id=self.id)
+
+    @property
+    def notification_image(self):
+        if self.created_by.profile_image:
+            return self.created_by.profile_image.url
+        return None
+
+    @property
+    def notification_title(self):
+        return "{user} shared a new quiz about {topic}.".format(
+            user=self.created_by.full_name, topic=self.topic.name
+        )
+
     def is_liked(self, user):
         return self.likes.filter(user=user).exists()
 
@@ -254,3 +270,21 @@ class Answer(models.Model):
 
     def __str__(self) -> str:
         return self.option.question.body
+
+
+class Subscription(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="subscriptions",
+    )
+
+    topic = models.ForeignKey(
+        Topic,
+        on_delete=models.CASCADE,
+        blank=False,
+        null=False,
+        related_name="subscriptions",
+    )

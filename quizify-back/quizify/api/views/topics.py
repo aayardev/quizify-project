@@ -1,9 +1,15 @@
-from rest_framework import generics, permissions
+from rest_framework import generics, permissions, views
+from rest_framework.response import Response
+from rest_framework.status import HTTP_201_CREATED
+
+
 from api.serializers import (
     QuizReadSerializer,
     TopicModelSerializer,
+    SubscriptionModelSerializer,
 )
 from core.models import Topic, Quiz
+from api.permissions import CanSubscribeToTopic
 from django.db.models import Count
 
 
@@ -46,3 +52,19 @@ class TopicLatestQuizzesListAPIView(generics.ListAPIView):
 
 
 topic_latest_quizzes_list_api_view = TopicLatestQuizzesListAPIView.as_view()
+
+
+class SubscribeToTopicAPIView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated, CanSubscribeToTopic]
+
+    def post(self, request, topic_id):
+        serializer = SubscriptionModelSerializer(
+            data={"topic": topic_id, "user": request.user.id}
+        )
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+
+        return Response({"detail": "Success!"}, status=HTTP_201_CREATED)
+
+
+subscribe_to_topic_api_view = SubscribeToTopicAPIView.as_view()

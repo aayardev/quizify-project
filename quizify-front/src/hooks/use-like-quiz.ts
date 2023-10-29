@@ -90,6 +90,9 @@ const useLikeQuiz = (quiz: API.TQuiz) => {
       queryClient.invalidateQueries({
         queryKey: ["latest-quizzes"],
       });
+
+      queryClient.invalidateQueries({ queryKey: ["topic-top-quizzes"] });
+      queryClient.invalidateQueries({ queryKey: ["topic-latest-quizzes"] });
     },
   });
 
@@ -106,6 +109,9 @@ const useLikeQuiz = (quiz: API.TQuiz) => {
       queryClient.invalidateQueries({
         queryKey: ["latest-quizzes"],
       });
+
+      queryClient.invalidateQueries({ queryKey: ["topic-top-quizzes"] });
+      queryClient.invalidateQueries({ queryKey: ["topic-latest-quizzes"] });
     },
   });
 

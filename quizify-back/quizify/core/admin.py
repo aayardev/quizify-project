@@ -8,10 +8,11 @@ from core.models import (
     Topic,
     LikedQuiz,
     Participation,
+    Subscription,
 )
 
 
-admin.site.register([User, Question, Topic, LikedQuiz, Participation])
+admin.site.register([User, Question, Topic, LikedQuiz, Participation, Subscription])
 
 
 @admin.register(Option)

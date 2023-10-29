@@ -9,6 +9,7 @@ import SignInButton from "./SignInButton";
 import UserAccountNav from "./UserAccountNav";
 import { buttonVariants } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
+import Notifications from "./Notifications";
 
 type Props = {};
 
@@ -27,7 +28,7 @@ const Navbar = (props: Props) => {
               <span className="hidden sm:inline"> New quizz</span>
             </Link>
           )}
-
+          <Notifications />
           <ModeToggle />
           {status === "loading" ? (
             <Skeleton className="h-10 w-10 rounded-full flex dark:bg-white" />
