@@ -25,10 +25,9 @@ const TopicFilter = ({ onFilter, filter }: Props) => {
     queryKey: ["top-topics"],
   });
 
-  console.log(topics, "topics");
   return (
-    <ul className="flex gap-x-2 mt-2">
-      <ul>
+    <ul className="flex gap-x-2  flex-wrap">
+      <li className="mt-2">
         <button
           className={buttonVariants({
             variant: filter === "all" ? "active" : "default",
@@ -37,9 +36,9 @@ const TopicFilter = ({ onFilter, filter }: Props) => {
         >
           all
         </button>
-      </ul>
+      </li>
       {topics?.map((topic) => (
-        <li key={topic.id}>
+        <li key={topic.id} className="mt-2">
           <button
             onClick={() => onFilter(topic.name)}
             className={buttonVariants({

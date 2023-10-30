@@ -7,19 +7,17 @@ import {
   PlusCircleIcon,
 } from "lucide-react";
 import BaseCarousel, { type CarouselProps } from "nuka-carousel";
-import { useMediaQuery } from "usehooks-ts";
 import { Card } from "./ui/card";
+import useMediaQuery from "@/hooks/use-media-query";
 
 type Props = CarouselProps & {
   showSeeAllBtn: boolean;
 };
 
 const Carousel = ({ children, showSeeAllBtn = false, ...props }: Props) => {
-  const sm = useMediaQuery("(max-width: 639px)");
-  const md = useMediaQuery("(max-width: 767px)");
-  const lg = useMediaQuery("(max-width: 1023px)");
-  let slidesToShow = 4;
+  const { sm, md, lg } = useMediaQuery();
 
+  let slidesToShow = 4;
   if (sm) slidesToShow = 1;
   else if (md) slidesToShow = 2;
   else if (lg) slidesToShow = 3;

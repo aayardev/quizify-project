@@ -5,7 +5,10 @@ declare namespace API {
     notification_image: string | null;
     notification_title: string;
     since: string;
+    unread: boolean;
   };
 
-  type TNotifications = API.TResponse<TNotification>;
+  type TNotifications = API.TResponse<TNotification> & {
+    unread_notifications: number;
+  };
 }

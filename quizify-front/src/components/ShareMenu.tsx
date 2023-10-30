@@ -35,7 +35,7 @@ const ShareMenu = () => {
       <DropdownMenuTrigger asChild>
         <button>
           <Share2 className="h-4 w-4 inline-block mr-1" />
-          <span className="text-sm text-bold">Share</span>
+          <span className="text-sm text-bold  hidden md:inline">Share</span>
         </button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end" className="py-3">

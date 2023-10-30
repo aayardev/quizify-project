@@ -49,12 +49,12 @@ const QuizDetailHeader = ({ quiz }: Props) => {
             }}
             disabled={isLiking || isDisliking}
           >
-            <div className="flex items-center gap-x-1 ">
+            <div className="flex  items-center gap-x-1 ">
               <Heart
                 className="h-4 w-4"
                 fill={isLiked ? "currentColor" : "none"}
               />
-              <span className="text-sm text-bold">Like</span>
+              <span className="text-sm text-bold hidden md:inline">Like</span>
             </div>
           </button>
         </div>

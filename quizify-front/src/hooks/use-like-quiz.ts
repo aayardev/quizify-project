@@ -48,9 +48,7 @@ export const useLikeStore = create<TLikeStore>((set, get) => ({
 const useLikeQuiz = (quiz: API.TQuiz) => {
   const queryClient = useQueryClient();
 
-  const { likes, pushLike, increaseLikes, decreaseLikes } = useLikeStore();
-
-  console.log(likes, "Likes");
+  const { pushLike, increaseLikes, decreaseLikes } = useLikeStore();
 
   const [likesCount, setLikesCount] = useState(quiz.likes_count);
   const [isLiked, setIsLiked] = useState(quiz.is_liked);

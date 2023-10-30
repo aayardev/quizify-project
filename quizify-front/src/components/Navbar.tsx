@@ -10,11 +10,14 @@ import UserAccountNav from "./UserAccountNav";
 import { buttonVariants } from "./ui/button";
 import { Skeleton } from "./ui/skeleton";
 import Notifications from "./Notifications";
+import ButtonLink from "./ui/button-link";
+import useMediaQuery from "@/hooks/use-media-query";
 
 type Props = {};
 
 const Navbar = (props: Props) => {
   const { data: session, status } = useSession();
+  const { sm } = useMediaQuery();
 
   return (
     <header className=" fixed inset-0 top-0 left-0 bg-white dark:bg-gray-950  border-b h-fit py-2 border-zinc-200 z-10">
@@ -24,10 +27,10 @@ const Navbar = (props: Props) => {
         <div className="flex items-center gap-x-3">
           {session?.user ? (
             <>
-              <Link href="/quiz" className={buttonVariants()}>
+              <ButtonLink href="/quiz" size={sm ? "icon" : "default"}>
                 <Plus className="w-4 h-4 mr-1 inline-block" />
                 <span className="hidden sm:inline"> New quizz</span>
-              </Link>
+              </ButtonLink>
               <Notifications />
             </>
           ) : null}

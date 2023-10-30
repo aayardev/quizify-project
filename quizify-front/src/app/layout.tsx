@@ -21,7 +21,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={cn(inter.className, "antialiased min-h-screen ")}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          {/* <FabButton /> */}
+        </Providers>
         <Toaster />
       </body>
     </html>

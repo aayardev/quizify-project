@@ -5,6 +5,7 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 import { BeatLoader } from "react-spinners";
 import { useTheme } from "next-themes";
+import Spinner from "./spinner";
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -57,13 +58,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     ref
   ) => {
     const Comp = asChild ? Slot : "button";
-    const { theme } = useTheme();
-    console.log(
-      theme,
-      theme === "dark",
-      "theme",
-      theme === "dark" ? "black" : "white"
-    );
+
     return (
       <Comp
         className={cn(
@@ -76,7 +71,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
         {children}
         {isLoading && (
           <div className="absolute h-full w-full inset-0  bg-primary flex items-center justify-center rounded-full">
-            <BeatLoader color={theme === "dark" ? "black" : "white"} size={5} />
+            <Spinner size={5} />
           </div>
         )}
       </Comp>

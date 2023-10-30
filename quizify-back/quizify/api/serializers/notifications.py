@@ -66,4 +66,5 @@ class NotificationModelSerializer(serializers.ModelSerializer):
             "notification_image",
             "notification_title",
             "since",
+            "unread",
         ]
