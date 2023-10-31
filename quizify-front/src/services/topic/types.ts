@@ -4,5 +4,6 @@ declare namespace API {
     name: string;
     quizzes_count: number;
     color: string;
+    is_subscribed: boolean;
   };
 }

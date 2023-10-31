@@ -11,7 +11,9 @@ def notify_topic_subscribers(sender, created, instance, **kwargs):
     if created:
         topic = instance.topic
         subscribers_ids = list(topic.subscriptions.values_list("user__id", flat=True))
-        subscribers = User.objects.filter(id__in=subscribers_ids)
+        subscribers = User.objects.filter(id__in=subscribers_ids).exclude(
+            id=instance.created_by.id
+        )
         notify.send(
             sender=instance.created_by,
             recipient=subscribers,

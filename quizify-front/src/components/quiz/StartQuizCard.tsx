@@ -39,7 +39,7 @@ const StartQuizCard = ({
             : ""
         }`}
       >
-        <div className="flex  justify-center gap-x-8 mx-auto ">
+        <div className="flex  justify-center gap-x-8 mx-auto sm:mx-0 ">
           <WithTooltip
             content={
               <div className="flex items-center gap-x-1.5">
@@ -95,7 +95,7 @@ const StartQuizCard = ({
             </>
           ) : null}
         </div>
-        <div className="flex items-center mt-4 gap-x-2 mx-auto ">
+        <div className="flex items-center mt-4 sm:mt-0 md:mt-4 gap-x-2 mx-auto sm:mx-0   ">
           <ButtonLink
             href={`/quiz/${topic}-${quiz}/play`}
             className={`${viewport === "desktop" ? "w-full " : "w-28"}`}

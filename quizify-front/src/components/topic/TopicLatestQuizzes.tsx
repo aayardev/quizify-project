@@ -1,25 +1,20 @@
 "use client";
-import { getLatestQuizzes } from "@/services/quiz/api";
-import React from "react";
+import { getTopicLatestQuizzes } from "@/services";
 import { useQuery } from "react-query";
 import Carousel from "../Carousel";
-import QuizCard from "../QuizCard";
-import { useTheme } from "next-themes";
-import WithUnderline from "../wrappers/WithUnderline";
-import { getTopicLatestQuizzes } from "@/services";
-import TopicQuizCard from "./TopicQuizCard";
 import EmptyData from "../EmptyData";
+import TopicQuizCard from "./TopicQuizCard";
 
 type Props = {
   quizzes: API.TQuiz[];
-  topicId: string;
+  topicId: number;
 };
 
 const TopicLatestQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
   const { data: quizzes, isSuccess } = useQuery({
     queryKey: ["topic-latest-quizzes", topicId],
     queryFn: async () => {
-      const res = getTopicLatestQuizzes(topicId, undefined, 8);
+      const res = getTopicLatestQuizzes(`${topicId}`, undefined, 8);
       return (await res).data.results;
     },
     initialData: initialQuizzes,

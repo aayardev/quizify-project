@@ -1,16 +1,23 @@
 "use client";
 
 import { capitalize } from "@/lib/utils";
-import { BellRing, Info } from "lucide-react";
+import { BellRing, Info, X } from "lucide-react";
 import { useParams, useSearchParams } from "next/navigation";
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useMutation } from "react-query";
 
-import { subscribeToTopic as subscribeToTopicAPI } from "@/services";
+import {
+  subscribeToTopic as subscribeToTopicAPI,
+  unsubscribeToTopic as unsubscribeToTopicAPI,
+} from "@/services";
 import { Button } from "../ui/button";
 import WithTooltip from "../wrappers/withTooltip";
 
-const TopicDetailHeader = () => {
+type Props = {
+  isSubscribed: boolean;
+};
+
+const TopicDetailHeader = ({ isSubscribed: initialIsSubscribed }: Props) => {
   const params = useParams();
   const { slug } = params;
   const [topic, id] = (slug as string).split("-");
@@ -18,10 +25,25 @@ const TopicDetailHeader = () => {
   const searchParams = useSearchParams();
   const color = searchParams.get("color");
 
-  const { mutate: subscribeToTopic, isLoading } = useMutation({
+  const [isSubscribed, setIsSubscribed] = useState(initialIsSubscribed);
+
+  const { mutate: subscribeToTopic } = useMutation({
     mutationFn: async (data) => {
       const response = await subscribeToTopicAPI(id);
       return response.data;
+    },
+    onSuccess: () => {
+      setIsSubscribed(true);
+    },
+  });
+
+  const { mutate: unsubscribeToTopic } = useMutation({
+    mutationFn: async (data) => {
+      const response = await unsubscribeToTopicAPI(id);
+      return response.data;
+    },
+    onSuccess: () => {
+      setIsSubscribed(false);
     },
   });
 
@@ -53,17 +75,25 @@ const TopicDetailHeader = () => {
           content={
             <div className="flex items-center gap-x-1.5">
               <Info className="h-3.5 w-3.5   " />
-              <span>Get notified for new quizzes.</span>
+              <span>
+                {isSubscribed ? "Unsubscribe" : "Get notified for new quizzes."}
+              </span>
             </div>
           }
         >
           <Button
             variant="outline"
             size="icon"
-            className="rounded-full p-1"
-            onClick={() => subscribeToTopic()}
+            className="rounded-full p-1 relative"
+            onClick={() => {
+              if (isSubscribed) unsubscribeToTopic();
+              else subscribeToTopic();
+            }}
           >
             <BellRing className="h-4 w-4" />
+            {isSubscribed ? (
+              <div className="absolute w-2 h-2 rounded-full top-0.5 right-0 bg-primary" />
+            ) : null}
 
             {/* <BellRing /> */}
             {/* <svg

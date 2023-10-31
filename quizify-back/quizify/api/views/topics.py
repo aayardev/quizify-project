@@ -1,6 +1,7 @@
 from rest_framework import generics, permissions, views
 from rest_framework.response import Response
-from rest_framework.status import HTTP_201_CREATED
+from rest_framework.status import HTTP_201_CREATED, HTTP_204_NO_CONTENT
+from django.shortcuts import get_object_or_404
 
 
 from api.serializers import (
@@ -8,9 +9,19 @@ from api.serializers import (
     TopicModelSerializer,
     SubscriptionModelSerializer,
 )
-from core.models import Topic, Quiz
+from core.models import Topic, Quiz, Subscription
 from api.permissions import CanSubscribeToTopic
 from django.db.models import Count
+
+
+class TopicRetrieveAPIView(generics.RetrieveAPIView):
+    queryset = Topic.objects.all()
+    serializer_class = TopicModelSerializer
+    permission_classes = [permissions.AllowAny]
+    lookup_url_kwarg = "topic_id"
+
+
+topic_retrieve_api_view = TopicRetrieveAPIView.as_view()
 
 
 class TopicListAPIView(generics.ListAPIView):
@@ -64,7 +75,21 @@ class SubscribeToTopicAPIView(views.APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
-        return Response({"detail": "Success!"}, status=HTTP_201_CREATED)
+        return Response(
+            {"detail": "Success!", "id": serializer.data["id"]}, status=HTTP_201_CREATED
+        )
 
 
 subscribe_to_topic_api_view = SubscribeToTopicAPIView.as_view()
+
+
+class UnsubscribeToTopicAPIView(views.APIView):
+    permission_classes = [permissions.IsAuthenticated]
+
+    def post(self, request, topic_id):
+        sub = get_object_or_404(Subscription, topic__id=topic_id, user=request.user)
+        sub.delete()
+        return Response(status=HTTP_204_NO_CONTENT)
+
+
+unsubscribe_to_topic_api_view = UnsubscribeToTopicAPIView.as_view()

@@ -8,14 +8,14 @@ import TopicQuizCard from "./TopicQuizCard";
 
 type Props = {
   quizzes: API.TQuiz[];
-  topicId: string;
+  topicId: number;
 };
 
 const TopicTopQuizzes = ({ quizzes: initialQuizzes, topicId }: Props) => {
   const { data: quizzes, isSuccess } = useQuery({
     queryKey: ["topic-top-quizzes", topicId],
     queryFn: async () => {
-      const res = getTopicTopQuizzes(topicId, undefined, 8);
+      const res = getTopicTopQuizzes(`${topicId}`, undefined, 8);
       return (await res).data.results;
     },
     initialData: initialQuizzes,

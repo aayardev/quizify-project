@@ -109,6 +109,9 @@ class Topic(models.Model):
     def quizzes_count(self):
         return self.quizzes.all().count()
 
+    def is_subscribed(self, user):
+        return self.subscriptions.filter(user=user).exists()
+
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.color = random.choice(self.COLORS)

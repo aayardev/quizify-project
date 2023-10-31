@@ -12,6 +12,10 @@ export const getTopics = (
   );
 };
 
+export const getTopicDetail = (topicId: string) => {
+  return httpClient.get<API.TTopic>(`topics/${topicId}/`);
+};
+
 export const getTopicLatestQuizzes = (
   topicId: string,
   page: number = 1,
@@ -41,4 +45,8 @@ export const getTopicTopQuizzes = (
 
 export const subscribeToTopic = (topicId: string) => {
   return httpClient.post(`topics/${topicId}/subscribe/`);
+};
+
+export const unsubscribeToTopic = (topicId: string) => {
+  return httpClient.post(`topics/${topicId}/unsubscribe/`);
 };

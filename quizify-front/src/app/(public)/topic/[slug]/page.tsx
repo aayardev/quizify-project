@@ -1,7 +1,11 @@
 import TopicDetailHeader from "@/components/topic/TopicDetailHeader";
 import TopicLatestQuizzes from "@/components/topic/TopicLatestQuizzes";
 import TopicTopQuizzes from "@/components/topic/TopicTopQuizzes";
-import { getTopicLatestQuizzes, getTopicTopQuizzes } from "@/services";
+import {
+  getTopicDetail,
+  getTopicLatestQuizzes,
+  getTopicTopQuizzes,
+} from "@/services";
 
 type Props = {
   params: {
@@ -21,11 +25,13 @@ const TopicDetail = async ({ params }: Props) => {
     data: { results: topQuizzes },
   } = await getTopicTopQuizzes(id, undefined, 8);
 
+  const { data: topic } = await getTopicDetail(id);
+
   return (
     <div>
-      <TopicDetailHeader />
-      <TopicLatestQuizzes quizzes={latestQuizzes} topicId={id} />
-      <TopicTopQuizzes quizzes={topQuizzes} topicId={id} />
+      <TopicDetailHeader isSubscribed={topic.is_subscribed} />
+      <TopicLatestQuizzes quizzes={latestQuizzes} topicId={topic.id} />
+      <TopicTopQuizzes quizzes={topQuizzes} topicId={topic.id} />
     </div>
   );
 };

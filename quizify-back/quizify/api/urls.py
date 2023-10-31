@@ -49,6 +49,9 @@ urlpatterns = [
 urlpatterns += [
     path("topics/", views.topic_list_api_view, name="topic_list"),
     path(
+        "topics/<int:topic_id>/", views.topic_retrieve_api_view, name="topic_retrieve"
+    ),
+    path(
         "topics/<int:topic_id>/top-quizzes/",
         views.topic_top_quizzes_list_api_view,
         name="topic_top_quizzes",
@@ -62,6 +65,11 @@ urlpatterns += [
         "topics/<int:topic_id>/subscribe/",
         views.subscribe_to_topic_api_view,
         name="topic_subscribe",
+    ),
+    path(
+        "topics/<int:topic_id>/unsubscribe/",
+        views.unsubscribe_to_topic_api_view,
+        name="topic_unsubscribe",
     ),
 ]
 
