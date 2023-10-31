@@ -56,7 +56,7 @@ const LoginForm = () => {
         <Separator className="flex-1" />
       </div>
 
-      <div className=" flex gap-3 justify-center flex-wrap">
+      <div className=" flex gap-3 justify-center flex-wrap sm:flex-nowrap">
         <SignInButton provider="google" className="whitespace-nowrap	">
           <SocialIcon as="div" network="google" className="!h-5 !w-5 mr-1.5" />
           Sign in with Google

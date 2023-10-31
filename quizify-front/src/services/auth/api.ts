@@ -63,9 +63,6 @@ export const changePassword = (
   return httpClient.post("auth/password/change/", data, config);
 };
 
-export const socialLogin = (
-  provider: OAuthProviderType,
-  data: API.TUpdateUserProfileData
-) => {
-  return httpClient.post(`auth/${provider}`, data);
+export const socialLogin = (provider: string, data: API.TSocialLoginData) => {
+  return httpClient.post<API.TLoginReturnedData>(`auth/${provider}/`, data);
 };

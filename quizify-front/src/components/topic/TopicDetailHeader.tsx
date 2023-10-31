@@ -27,7 +27,7 @@ const TopicDetailHeader = ({ isSubscribed: initialIsSubscribed }: Props) => {
 
   const [isSubscribed, setIsSubscribed] = useState(initialIsSubscribed);
 
-  const { mutate: subscribeToTopic } = useMutation({
+  const { mutate: subscribeToTopic, isLoading: isSubing } = useMutation({
     mutationFn: async (data) => {
       const response = await subscribeToTopicAPI(id);
       return response.data;
@@ -37,7 +37,7 @@ const TopicDetailHeader = ({ isSubscribed: initialIsSubscribed }: Props) => {
     },
   });
 
-  const { mutate: unsubscribeToTopic } = useMutation({
+  const { mutate: unsubscribeToTopic, isLoading: inUnsubing } = useMutation({
     mutationFn: async (data) => {
       const response = await unsubscribeToTopicAPI(id);
       return response.data;
@@ -89,6 +89,7 @@ const TopicDetailHeader = ({ isSubscribed: initialIsSubscribed }: Props) => {
               if (isSubscribed) unsubscribeToTopic();
               else subscribeToTopic();
             }}
+            disabled={isSubing || inUnsubing}
           >
             <BellRing className="h-4 w-4" />
             {isSubscribed ? (

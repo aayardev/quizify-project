@@ -54,4 +54,6 @@ declare namespace API {
     "new_password1" | "new_password2" | "old_password",
     string
   >;
+
+  type TSocialLoginData = Record<"access_token" | "id_token", string>;
 }
