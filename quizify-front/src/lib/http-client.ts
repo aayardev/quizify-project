@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { getServerAuthSession } from "./next-auth";
+import { refreshToken } from "@/services";
 
 const isServer = typeof window === "undefined";
 
@@ -19,6 +20,7 @@ const httpClient = axios.create({
 httpClient.interceptors.request.use(async (config) => {
   const session = isServer ? await getServerAuthSession() : await getSession();
 
+  console.log(session?.access, "session");
   const access = session?.access;
   if (!config.headers["Authorization"] && access) {
     config.headers["Authorization"] = `Bearer ${access}`;
@@ -34,8 +36,20 @@ httpClient.interceptors.request.use(async (config) => {
 //       ? await getServerAuthSession()
 //       : await getSession();
 
+//     console.log("httpClient.interceptors.response");
+
 //     const refresh = session?.refresh;
 //     const prevRequest = error?.config;
+
+//     console.log(
+//       session,
+//       error?.response?.status,
+//       !prevRequest?.sent,
+//       refresh,
+//       error?.response?.status === 401 && !prevRequest?.sent && refresh,
+//       "error?.response?.status === 401 && !prevRequest?.sent && refresh"
+//     );
+
 //     if (error?.response?.status === 401 && !prevRequest?.sent && refresh) {
 //       prevRequest.sent = true;
 //       const res = await refreshToken({

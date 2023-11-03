@@ -22,7 +22,7 @@ const LoginPage = async (props: Props) => {
 
   if (session?.user) return redirect("/");
   return (
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   w-[90vw] max-w-fit">
+    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2   w-[90vw] max-w-md">
       <Card>
         <CardHeader>
           <CardTitle>Welcome to Quizify</CardTitle>

@@ -66,3 +66,13 @@ export const changePassword = (
 export const socialLogin = (provider: string, data: API.TSocialLoginData) => {
   return httpClient.post<API.TLoginReturnedData>(`auth/${provider}/`, data);
 };
+
+export const socialConnect = (
+  provider: string,
+  data: API.TSocialConnectData
+) => {
+  return httpClient.post<API.TLoginReturnedData>(
+    `auth/${provider}/connect/`,
+    data
+  );
+};

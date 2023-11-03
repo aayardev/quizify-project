@@ -80,7 +80,7 @@ export default function useRegister() {
 
   const onValid: SubmitHandler<API.TRegisterData> = async (data) => {
     try {
-      const res = await register(data);
+      await register(data);
       setIsSubmitSuccessful(true);
     } catch (err) {
       setIsSubmitSuccessful(false);

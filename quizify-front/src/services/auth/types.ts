@@ -56,4 +56,6 @@ declare namespace API {
   >;
 
   type TSocialLoginData = Record<"access_token" | "id_token", string>;
+
+  type TSocialConnectData = TSocialLoginData;
 }

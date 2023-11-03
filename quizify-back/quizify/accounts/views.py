@@ -5,6 +5,20 @@ from allauth.socialaccount.providers.facebook.views import FacebookOAuth2Adapter
 from dj_rest_auth.registration.views import SocialLoginView
 from allauth.socialaccount.providers.oauth2.client import OAuth2Client
 from allauth.socialaccount.providers.google.views import GoogleOAuth2Adapter
+from allauth.socialaccount.providers.github.views import GitHubOAuth2Adapter
+
+
+from dj_rest_auth.registration.views import SocialConnectView
+
+
+class FacebookConnect(SocialConnectView):
+    adapter_class = FacebookOAuth2Adapter
+    permission_classes = []
+
+
+class GoogleConnect(SocialConnectView):
+    adapter_class = GoogleOAuth2Adapter
+    permission_classes = []
 
 
 class CustomVerifyEmailView(VerifyEmailView):
@@ -18,11 +32,18 @@ class CustomVerifyEmailView(VerifyEmailView):
 
 
 class FacebookLogin(SocialLoginView):
+    permission_classes = []
     adapter_class = FacebookOAuth2Adapter
     client_class = OAuth2Client
 
 
 class GoogleLogin(SocialLoginView):  # if you want to use Implicit Grant, use this
+    permission_classes = []
     adapter_class = GoogleOAuth2Adapter
     client_class = OAuth2Client
-    callback_url = "http://127.0.0.1:8000/api/auth/google/callback/"
+
+
+class GithubLogin(SocialLoginView):  # if you want to use Implicit Grant, use this
+    permission_classes = []
+    adapter_class = GitHubOAuth2Adapter
+    client_class = OAuth2Client

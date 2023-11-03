@@ -1,8 +1,19 @@
 import { RegisterForm } from "@/components/forms";
+import {
+  Card,
+  CardHeader,
+  CardTitle,
+  CardDescription,
+  CardContent,
+} from "@/components/ui/card";
+import { getServerAuthSession } from "@/lib/next-auth";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 
-type Props = {};
+const Page = async () => {
+  const session = await getServerAuthSession();
 
-const Page = (props: Props) => {
+  if (session?.user) return redirect("/");
   return <RegisterForm />;
 };
 

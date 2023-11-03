@@ -25,7 +25,7 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("accounts.urls")),
     path(
-        "auth/confirm-password/<str:uidb64>/<str:token>",
+        "confirm-password/<str:uidb64>/<str:token>",
         PasswordResetConfirmView.as_view(),
         name="password_reset_confirm",
     ),

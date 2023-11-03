@@ -61,13 +61,9 @@ const LoginForm = () => {
           <SocialIcon as="div" network="google" className="!h-5 !w-5 mr-1.5" />
           Sign in with Google
         </SignInButton>
-        <SignInButton provider="facebook" className="whitespace-nowrap	">
-          <SocialIcon
-            as="div"
-            network="facebook"
-            className="!h-5 !w-5 mr-1.5"
-          />
-          Sign in with Facebook
+        <SignInButton provider="github" className="whitespace-nowrap	">
+          <SocialIcon as="div" network="github" className="!h-5 !w-5 mr-1.5" />
+          Sign in with Github
         </SignInButton>
       </div>
     </>

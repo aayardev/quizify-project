@@ -36,6 +36,7 @@ const Notifications = () => {
     isFetchingNextPage,
     isSuccess,
     isLoading,
+    isError,
   } = useInfiniteQuery<API.TNotifications, AxiosError>(
     ["notifications"],
     getAllNotificationsFn,
@@ -94,7 +95,14 @@ const Notifications = () => {
             );
           })}
 
-          <div className="flex justify-center ">
+          <div className="flex justify-center w-56 ">
+            {isError ? (
+              <div>
+                <p className="text-center text-sm text-muted-foreground">
+                  Something went wrong.
+                </p>
+              </div>
+            ) : null}
             {isSuccess ? (
               <>
                 {notifications?.pages[0]?.count === 0 ? (

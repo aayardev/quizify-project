@@ -14,6 +14,8 @@ import {
 import { resendVerificationEmail } from "@/services/auth/api";
 import { useToast } from "../ui/use-toast";
 import Link from "next/link";
+import { SocialIcon } from "react-social-icons";
+import { Separator } from "../ui/separator";
 
 type Props = {};
 
@@ -92,8 +94,8 @@ const RegisterForm = (props: Props) => {
   }
 
   return (
-    <div className="my-28 w-[90vw] max-w-md">
-      <Card className="mb-20 ">
+    <div className=" my-12  w-[90vw] max-w-md">
+      <Card>
         <CardHeader>
           <CardTitle>Quizify 🔥</CardTitle>
           <CardDescription>
@@ -110,6 +112,31 @@ const RegisterForm = (props: Props) => {
             isSubmitting={isSubmitting}
             config={config}
           />
+
+          <div className="flex items-center gap-x-4 my-5">
+            <Separator className="flex-1" />{" "}
+            <span className="text-muted-foreground">Or</span>{" "}
+            <Separator className="flex-1" />
+          </div>
+
+          <div className=" flex gap-3 justify-center flex-wrap sm:flex-nowrap">
+            <SignInButton provider="google" className="whitespace-nowrap	">
+              <SocialIcon
+                as="div"
+                network="google"
+                className="!h-5 !w-5 mr-1.5"
+              />
+              Sign up with Google
+            </SignInButton>
+            <SignInButton provider="github" className="whitespace-nowrap	">
+              <SocialIcon
+                as="div"
+                network="github"
+                className="!h-5 !w-5 mr-1.5"
+              />
+              Sign up with Github
+            </SignInButton>
+          </div>
         </CardContent>
       </Card>
     </div>

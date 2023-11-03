@@ -1,8 +1,5 @@
-import {
-  login,
-  refreshToken as refreshTokenAPI,
-  socialLogin,
-} from "@/services/auth/api";
+import { login, socialLogin } from "@/services/auth/api";
+import axios, { isAxiosError } from "axios";
 import moment from "moment";
 import {
   getServerSession,
@@ -11,9 +8,10 @@ import {
 } from "next-auth";
 import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
-import GoogleProvider from "next-auth/providers/google";
 import FacebookProvider from "next-auth/providers/facebook";
-import axios, { isAxiosError } from "axios";
+import GoogleProvider from "next-auth/providers/google";
+import GithubProvider from "next-auth/providers/github";
+
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
  * object and keep type safety.
@@ -86,7 +84,6 @@ const isTokenExpired = (token: { access_expiration: string }) => {
 export const authOptions: NextAuthOptions = {
   callbacks: {
     jwt: async ({ token, user, account, profile, session, trigger }) => {
-      console.log("jwt callback", trigger, session);
       if (user && account?.type === "credentials") {
         token.access = user.access;
         token.refresh = user.refresh;
@@ -105,18 +102,37 @@ export const authOptions: NextAuthOptions = {
       // Social Login
       if (account?.type === "oauth") {
         const { access_token, id_token } = account;
-        console.log(account, " account account", token, "token");
-        const { data } = await socialLogin(account.provider, {
-          access_token: access_token as string,
-          id_token: id_token as string,
-        });
-        token = {
-          ...data,
-        };
-        return token;
+        try {
+          const { data } = await socialLogin(account.provider, {
+            access_token: access_token as string,
+            id_token: id_token as string,
+          });
+          token = { ...data, ...data.user };
+        } catch (e) {
+          if (axios.isAxiosError(e)) {
+            if (e.response?.status === 400) {
+              const nonFieldErr = e.response.data["non_field_errors"] as
+                | string
+                | undefined;
+
+              if (nonFieldErr && nonFieldErr[0]) {
+                if (
+                  nonFieldErr[0] ===
+                  "User is already registered with this e-mail address."
+                ) {
+                  console.log(nonFieldErr, "nonFieldErr");
+                }
+              }
+            }
+          }
+          token = { ...token, error: "OauthError" };
+        }
+
+        return token as JWT;
       }
 
       if (isTokenExpired(token)) {
+        console.log("access token expired...");
         token = await refreshToken(token);
       }
 
@@ -144,7 +160,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         try {
           const response = await login(credentials!);
-          console.log(response.headers, "response.headers");
           return { ...response.data, ...response.data.user };
         } catch (error: any) {
           throw new Error(JSON.stringify(error.response.data));
@@ -158,6 +173,10 @@ export const authOptions: NextAuthOptions = {
     FacebookProvider({
       clientId: process.env.FACEBOOK_CLIENT_ID as string,
       clientSecret: process.env.FACEBOOK_CLIENT_SECRET as string,
+    }),
+    GithubProvider({
+      clientId: process.env.GITHUB_CLIENT_ID as string,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET as string,
     }),
   ],
   pages: {

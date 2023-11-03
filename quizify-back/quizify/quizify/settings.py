@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     "allauth.socialaccount",
     "allauth.socialaccount.providers.google",
     "allauth.socialaccount.providers.facebook",
+    "allauth.socialaccount.providers.github",
     "dj_rest_auth.registration",
     "rest_framework",
     "rest_framework.authtoken",
@@ -209,6 +210,26 @@ EMAIL_NON_VERIFIED_ERROR_CODE = 0
 
 # allauth
 
+SOCIALACCOUNT_PROVIDERS = {
+    "github": {
+        "SCOPE": [
+            "user",
+            "repo",
+            "read:org",
+        ],
+    },
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online",
+        },
+        "OAUTH_PKCE_ENABLED": True,
+    },
+}
+
 
 # rest_framework
 
@@ -226,7 +247,7 @@ REST_FRAMEWORK = {
 # django-rest-framework-simplejwt
 
 SIMPLE_JWT = {
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=5),
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=1),
 }
 
 
