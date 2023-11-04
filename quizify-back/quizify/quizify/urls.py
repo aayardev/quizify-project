@@ -21,6 +21,11 @@ from django.conf.urls.static import static
 
 from dj_rest_auth.views import PasswordResetConfirmView
 
+
+def trigger_error(request):
+    return 1 / 0
+
+
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("api/v1/auth/", include("accounts.urls")),
@@ -30,6 +35,7 @@ urlpatterns = [
         name="password_reset_confirm",
     ),
     path("api/v1/", include("api.urls")),
+    path("sentry-debug/", trigger_error),
 ]
 
 
