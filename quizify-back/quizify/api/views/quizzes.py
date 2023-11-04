@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import status, views, generics, permissions
 from rest_framework.response import Response
 from api.serializers import (
@@ -17,7 +18,7 @@ from api.permissions import CanLikeQuiz
 
 class CreateQuizAPIView(views.APIView):
     permission_classes = [permissions.IsAuthenticated]
-    
+
     def post(self, request):
         serializer = QuizCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -226,8 +227,10 @@ class CheckAnswerAPIView(views.APIView):
 
         data = {
             "is_correct": option.is_correct,
-            "correct_option": question.correct_option.body,
         }
+
+        if settings.DEBUG:
+            data.update({"correct_option": question.correct_option.body})
 
         if option.is_correct:
             participation.score += 1
