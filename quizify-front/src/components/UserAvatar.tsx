@@ -9,6 +9,7 @@ type Props = {
 };
 
 const UserAvatar = ({ user, size = "default" }: Props) => {
+  console.log(user.profile_image, "user.profile_image");
   return (
     <Avatar size={size}>
       {user.profile_image ? (

@@ -1,16 +1,15 @@
 import axios from "axios";
 import { getSession } from "next-auth/react";
 import { getServerAuthSession } from "./next-auth";
-import { refreshToken } from "@/services";
 
 const isServer = typeof window === "undefined";
 
 // Need this for docker
 // const host = isServer ? "backend" : "127.0.0.1";
-const host = "127.0.0.1";
+// const host = "127.0.0.1";
 
 const httpClient = axios.create({
-  baseURL: `http://${host}:8000/api/v1/`,
+  baseURL: process.env.NEXT_PUBLIC_API_BASE_URL,
   headers: {
     Accept: "application/json",
     "Content-Type": "application/json",
