@@ -56,7 +56,7 @@ async function refreshToken(token: JWT): Promise<JWT> {
   console.log("Refreshing access token...");
   try {
     const response = await axios.post<API.TRefreshTokenRerurnedData>(
-      "http://127.0.0.1:8000/api/v1/auth/token/refresh/",
+      `${process.env.NEXT_PUBLIC_API_BASE_URL}auth/token/refresh/`,
       {
         refresh: token.refresh,
       }
