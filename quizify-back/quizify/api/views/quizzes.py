@@ -1,3 +1,4 @@
+import sentry_sdk
 from django.conf import settings
 from rest_framework import status, views, generics, permissions
 from rest_framework.response import Response
@@ -88,7 +89,8 @@ class CreateQuizAPIView(views.APIView):
                 )
             serializer = QuizReadSerializer(quiz)
 
-        except Exception:
+        except Exception as e:
+            sentry_sdk.capture_exception(e)
             return Response(
                 {"detail": "Something went wrong"},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR,
