@@ -12,20 +12,17 @@ const UserAvatar = ({ user, size = "default" }: Props) => {
   console.log(user.profile_image, "user.profile_image");
   return (
     <Avatar size={size}>
-      {user.profile_image ? (
-        <AvatarImage sizes="" src={user.profile_image} alt="Profile picture" />
-      ) : (
-        <AvatarFallback>
-          {user.first_name && user.last_name ? (
-            <>
-              {user.first_name[0].toUpperCase() +
-                user.last_name[0].toUpperCase()}
-            </>
-          ) : (
-            "QU"
-          )}
-        </AvatarFallback>
-      )}
+      <AvatarImage sizes="" src={user.profile_image} alt="Profile picture" />
+
+      <AvatarFallback>
+        {user.first_name && user.last_name ? (
+          <>
+            {user.first_name[0].toUpperCase() + user.last_name[0].toUpperCase()}
+          </>
+        ) : (
+          "QU"
+        )}
+      </AvatarFallback>
     </Avatar>
   );
 };
