@@ -81,7 +81,7 @@ const QuizCreationForm = (props: Props) => {
   );
 
   return (
-    <Card>
+    <Card className="max-w-sm">
       <CardHeader>
         <CardTitle className="text-2xl">Quiz Creation</CardTitle>
         <CardDescription className="text-sm text-muted-foreground">
