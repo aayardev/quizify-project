@@ -13,4 +13,4 @@ A web application that harnesses AI, allowing a user to generate multiple-choice
 
 ## Demo
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/TiXETUYJF5A/0.jpg)](https://www.youtube.com/watch?v=YTiXETUYJF5A)
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/TiXETUYJF5A/0.jpg)](https://www.youtube.com/watch?v=TiXETUYJF5A)
