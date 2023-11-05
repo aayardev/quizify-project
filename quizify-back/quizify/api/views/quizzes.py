@@ -66,27 +66,36 @@ class CreateQuizAPIView(views.APIView):
 
                 # Create question options.
 
-                Option.objects.bulk_create(
-                    [
-                        Option(
-                            question=created_question,
-                            body=question["answer"],
-                            is_correct=True,
-                        ),
-                        Option(
-                            question=created_question,
-                            body=question["option1"],
-                        ),
-                        Option(
-                            question=created_question,
-                            body=question["option2"],
-                        ),
-                        Option(
-                            question=created_question,
-                            body=question["option3"],
-                        ),
-                    ]
-                )
+                options_body = [
+                    question["answer"],
+                    question["option1"],
+                    question["option2"],
+                    question["option3"],
+                ]
+
+                unique_options_body = list(set(options_body))
+
+                # remove the answer
+                unique_options_body.remove(question["answer"])
+
+                options = [
+                    Option(
+                        question=created_question,
+                        body=question["answer"],
+                        is_correct=True,
+                    )
+                ]
+                options += [
+                    Option(
+                        question=created_question,
+                        body=option,
+                        is_correct=True,
+                    )
+                    for option in unique_options_body
+                ]
+
+                Option.objects.bulk_create(options)
+
             serializer = QuizReadSerializer(quiz)
 
         except Exception as e:
