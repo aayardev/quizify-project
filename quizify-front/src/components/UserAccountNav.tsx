@@ -12,7 +12,7 @@ import UserAvatar from "./UserAvatar";
 import { LogOut } from "lucide-react";
 import { signOut } from "next-auth/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 
 type Props = {
   user: Pick<
@@ -38,8 +38,11 @@ const UserAccountNav = ({ user }: Props) => {
           )}
         </div>
         <DropdownMenuSeparator />
-        <DropdownMenuItem className="dark:text-black dark:hover:text-white">
-          <Link href="/u/update">Settings</Link>
+        <DropdownMenuItem
+          className="dark:text-black dark:hover:text-white"
+          onSelect={() => router.push("/u/update")}
+        >
+          Settings
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem

@@ -25,7 +25,7 @@ import { Button } from "../ui/button";
 import { useMutation } from "react-query";
 
 import axios, { type AxiosError } from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useToast } from "@/components/ui/use-toast";
 import { createQuiz } from "@/services";
 

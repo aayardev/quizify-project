@@ -1,11 +1,12 @@
 "use client";
 import { getTopics } from "@/services";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { useQuery } from "react-query";
 import WithUnderline from "../wrappers/WithUnderline";
 import { Card } from "../ui/card";
 
 import WordCloud from "../WordCloud";
+import { capitalize } from "@/lib/utils";
 
 type Props = {
   topics: API.TTopic[];
@@ -36,7 +37,7 @@ const TopicCloud = ({ topics: initialTopics }: Props) => {
           <div className="max-w-sm mx-auto">
             <WordCloud
               words={topics.map((topic) => ({
-                text: topic.name,
+                text: capitalize(topic.name),
                 value: topic.quizzes_count,
                 id: topic.id,
                 color: topic.color,

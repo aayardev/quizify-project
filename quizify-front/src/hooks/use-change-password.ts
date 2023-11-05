@@ -8,7 +8,9 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { type AxiosError } from "axios";
 import { useSession } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
+
 import {
   SubmitErrorHandler,
   SubmitHandler,

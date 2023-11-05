@@ -1,8 +1,5 @@
 "use client";
-import React from "react";
 import WordCloudBase from "react-d3-cloud";
-import { scaleOrdinal } from "d3-scale";
-import { schemeCategory10 } from "d3-scale-chromatic";
 
 type TWord = {
   text: string;
@@ -17,8 +14,6 @@ type Props = {
   onWordClick?: (event: any, d: Pick<TWord, "text" | "value">) => void;
 };
 
-const schemeCategory10ScaleOrdinal = scaleOrdinal(schemeCategory10);
-
 const WordCloud = ({ words, ...rest }: Props) => {
   return (
     <WordCloudBase
@@ -27,7 +22,7 @@ const WordCloud = ({ words, ...rest }: Props) => {
       font="Times"
       fontStyle="italic"
       fontWeight="bold"
-      fontSize={(word) => Math.log2(word.value) * 5 + 24}
+      fontSize={(word) => Math.log2(word.value) * 5 + 26}
       spiral="rectangular"
       rotate={(word) => word.value % 360}
       padding={5}

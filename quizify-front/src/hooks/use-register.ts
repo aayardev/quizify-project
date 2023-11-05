@@ -3,7 +3,7 @@ import { addServerErrors } from "@/lib/utils";
 import { register } from "@/services/auth/api";
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios, { AxiosError } from "axios";
-import { useRouter, useSearchParams } from "next/navigation";
+
 import { useState } from "react";
 import {
   SubmitErrorHandler,

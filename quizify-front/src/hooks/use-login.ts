@@ -2,7 +2,9 @@ import { useToast } from "@/components/ui/use-toast";
 import { EMAIL_NON_VERIFIED_ERROR_CODE } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
+import {  useSearchParams } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
+
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 

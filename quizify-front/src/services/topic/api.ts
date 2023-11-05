@@ -7,7 +7,7 @@ export const getTopics = (
   config?: AxiosRequestConfig
 ) => {
   return httpClient.get<API.TResponse<API.TTopic>>(
-    `topics/?page=${page}&size=${size}`,
+    `topics/?page=${page}&size=20`,
     config
   );
 };
