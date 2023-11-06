@@ -1,3 +1,4 @@
+import os
 from dj_rest_auth.registration.serializers import RegisterSerializer
 from dj_rest_auth.serializers import (
     UserDetailsSerializer,
@@ -11,9 +12,11 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.forms import PasswordResetForm
 
 from accounts.allauth.forms import CustomResetPasswordForm
+from cloudinary import uploader
 
 
 User = get_user_model()
+CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME", "")
 
 
 class CustomRegisterSerializer(RegisterSerializer):
@@ -37,6 +40,12 @@ class CustomRegisterSerializer(RegisterSerializer):
 
 class CustomUserDetailsSerializer(UserDetailsSerializer):
     full_name = serializers.CharField()
+    profile_image_url = serializers.SerializerMethodField(read_only=True)
+
+    def get_profile_image_url(self, user):
+        return "https://res.cloudinary.com/{cloud}/image/upload/{image}".format(
+            cloud=CLOUD_NAME, image=user.profile_image
+        )
 
     class Meta(UserDetailsSerializer.Meta):
         fields = [
@@ -46,7 +55,15 @@ class CustomUserDetailsSerializer(UserDetailsSerializer):
             "full_name",
             "email",
             "profile_image",
+            "profile_image_url",
         ]
+        extra_kwargs = {"profile_image": {"write_only": True}}
+
+    def update(self, instance, validated_data):
+        profile_image = validated_data.get("profile_image", None)
+        if profile_image:
+            uploader.destroy(instance.profile_image.public_id, invalidate=True)
+        return super().update(instance, validated_data)
 
 
 class CustomLoginSerializer(LoginSerializer):

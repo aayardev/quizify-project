@@ -26,7 +26,7 @@ declare module "next-auth" {
     username: string;
     full_name: string;
     email: string;
-    profile_image: string;
+    profile_image_url: string;
     access: string;
     refresh: string;
     access_expiration: string;

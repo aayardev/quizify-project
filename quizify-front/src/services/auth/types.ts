@@ -6,7 +6,7 @@ declare namespace API {
     full_name: string;
     username: string;
     email: string;
-    profile_image: string;
+    profile_image_url: string;
   };
 
   type TCredentials = Record<"email" | "password", string>;

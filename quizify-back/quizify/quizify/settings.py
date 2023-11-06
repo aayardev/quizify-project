@@ -16,7 +16,7 @@ from pathlib import Path
 import sentry_sdk
 
 from dotenv import load_dotenv
-
+import cloudinary
 
 # Take environment variables from .env.
 load_dotenv()
@@ -29,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-l&@9s7c)w*=$2x&c$29zmc0$44wz7dq$-x5*b8l6ftv)%6ywab"
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", "") == "True"
@@ -291,4 +291,13 @@ sentry_sdk.init(
     # of sampled transactions.
     # We recommend adjusting this value in production.
     profiles_sample_rate=1.0,
+)
+
+
+# Cloudinary
+
+cloudinary.config(
+    cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME", ""),
+    api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
+    api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
 )

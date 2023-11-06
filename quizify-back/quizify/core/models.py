@@ -12,8 +12,8 @@ from django.contrib.auth.models import (
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.validators import UnicodeUsernameValidator
 
-from stdimage import StdImageField
 import random
+from cloudinary.models import CloudinaryField
 
 
 class UserManager(BaseUserManager):
@@ -57,14 +57,15 @@ class User(AbstractBaseUser, PermissionsMixin):
     )
     first_name = models.CharField(_("Prénom"), max_length=255)
     last_name = models.CharField(_("Nom"), max_length=255)
-    profile_image = StdImageField(
-        upload_to="users/",
-        verbose_name=_("Photo de profile"),
-        default="",
-        variations={
-            "50x50": {"width": 50, "height": 50, "crop": True},
-        },
-    )
+    # profile_image = StdImageField(
+    #     upload_to="users/",
+    #     verbose_name=_("Photo de profile"),
+    #     default="",
+    #     variations={
+    #         "50x50": {"width": 50, "height": 50, "crop": True},
+    #     },
+    # )
+    profile_image = CloudinaryField("image")
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
 
