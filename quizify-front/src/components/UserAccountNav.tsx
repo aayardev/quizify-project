@@ -17,7 +17,7 @@ import { useRouter } from "next-nprogress-bar";
 type Props = {
   user: Pick<
     User,
-    "first_name" | "last_name" | "full_name" | "profile_image" | "email"
+    "first_name" | "last_name" | "full_name" | "profile_image_url" | "email"
   >;
 };
 const UserAccountNav = ({ user }: Props) => {
