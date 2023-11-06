@@ -89,7 +89,6 @@ class CreateQuizAPIView(views.APIView):
                     Option(
                         question=created_question,
                         body=option,
-                        is_correct=True,
                     )
                     for option in unique_options_body
                 ]

@@ -38,9 +38,6 @@ export default function useResetPassword() {
 
   const form = useForm<API.TResetPasswordData>({
     resolver: zodResolver(ResetPasswordSchema),
-    defaultValues: {
-      email: "aayar.ismail4@gmail.com",
-    },
   });
 
   const {
