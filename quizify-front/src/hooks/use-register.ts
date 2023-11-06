@@ -63,13 +63,6 @@ export default function useRegister() {
 
   const form = useForm<API.TRegisterData>({
     resolver: zodResolver(RegisterSchema),
-    defaultValues: {
-      first_name: "ismail",
-      last_name: "aayar",
-      email: "aayar.ismail4@gmail.com",
-      password1: "Aayar1234",
-      password2: "Aayar1234",
-    },
   });
 
   const {

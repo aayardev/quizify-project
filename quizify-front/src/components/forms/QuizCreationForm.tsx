@@ -38,9 +38,6 @@ const QuizCreationForm = (props: Props) => {
 
   const form = useForm<TQuizCreationSchema>({
     resolver: zodResolver(quizCreationSchema),
-    defaultValues: {
-      topic: "Python",
-    },
   });
 
   console.log(form.formState.dirtyFields, form.formState.errors);

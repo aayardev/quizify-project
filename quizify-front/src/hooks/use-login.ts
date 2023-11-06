@@ -2,7 +2,7 @@ import { useToast } from "@/components/ui/use-toast";
 import { EMAIL_NON_VERIFIED_ERROR_CODE } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn } from "next-auth/react";
-import {  useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useRouter } from "next-nprogress-bar";
 
 import { SubmitErrorHandler, SubmitHandler, useForm } from "react-hook-form";
@@ -33,10 +33,6 @@ export default function useLogin(onEmailNotVerified: (email: string) => void) {
 
   const form = useForm<API.TCredentials>({
     resolver: zodResolver(LoginSchema),
-    defaultValues: {
-      email: "aayar.ismail4@gmail.com",
-      password: "Farid@1234",
-    },
   });
 
   const {
