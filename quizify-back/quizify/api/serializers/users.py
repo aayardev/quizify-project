@@ -11,12 +11,7 @@ CLOUD_NAME = (os.environ.get("CLOUDINARY_CLOUD_NAME", ""),)
 
 class UserModelSerializer(FlexFieldsModelSerializer):
     full_name = serializers.CharField()
-    profile_image_url = serializers.SerializerMethodField(read_only=True)
-
-    def get_profile_image_url(self, user):
-        return "https://res.cloudinary.com/{cloud}/image/upload/{image}".format(
-            cloud=CLOUD_NAME, image=user.profile_image
-        )
+    profile_image_url = serializers.CharField(source="profile_image.url")
 
     class Meta:
         model = User

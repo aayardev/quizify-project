@@ -17,9 +17,8 @@ const httpClient = axios.create({
 });
 
 httpClient.interceptors.request.use(async (config) => {
-  const session = isServer ? await getServerAuthSession() : await getSession();
-
-  console.log(session?.access, "session");
+  if (isServer) return config;
+  const session = await getSession();
   const access = session?.access;
   if (!config.headers["Authorization"] && access) {
     config.headers["Authorization"] = `Bearer ${access}`;
