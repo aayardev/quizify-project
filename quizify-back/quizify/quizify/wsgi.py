@@ -11,6 +11,10 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'quizify.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "quizify.settings")
 
-application = get_wsgi_application()
+
+if os.environ.get("DJANGO_ENV") == "production":
+    app = get_wsgi_application()
+else:
+    application = get_wsgi_application()
