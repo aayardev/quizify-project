@@ -4,7 +4,7 @@ import { AxiosError } from "axios";
 import { BellRing } from "lucide-react";
 
 import { useTheme } from "next-themes";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next-nprogress-bar";
 import { Fragment } from "react";
 import { useInfiniteQuery, useMutation, useQueryClient } from "react-query";
 import { BeatLoader } from "react-spinners";
