@@ -6,24 +6,14 @@ import ButtonLink from "../ui/button-link";
 import { Card, CardContent, CardFooter, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import WithTooltip from "../wrappers/withTooltip";
+import { retrieveQuiz } from "@/services";
+import { useQuery } from "react-query";
 
 type Props = {
   viewport: "mobile" | "desktop";
-  likes_count: number;
-  participants_count: number;
-  is_played: boolean;
-  score?: number;
+  quiz: API.TQuiz;
 };
-const StartQuizCard = ({
-  viewport = "desktop",
-  participants_count,
-  likes_count,
-  is_played,
-  score = 0,
-}: Props) => {
-  const params = useParams();
-  const { slug } = params;
-  const [topic, quiz] = (slug as string).split("-");
+const StartQuizCard = ({ viewport = "desktop", quiz }: Props) => {
   return (
     <Card
       className={`${
@@ -50,7 +40,7 @@ const StartQuizCard = ({
           >
             <div className="flex flex-col items-center justify-center">
               <User className="h-5 w-5 mb-1" />
-              <span className="text-sm">{participants_count}</span>
+              <span className="text-sm">{quiz?.participants_count}</span>
             </div>
           </WithTooltip>
           <div className="h-10">
@@ -67,11 +57,11 @@ const StartQuizCard = ({
           >
             <div className="flex flex-col items-center justify-center">
               <Heart className="h-5 w-5 mb-1" />
-              <span className="text-sm">{likes_count}</span>
+              <span className="text-sm">{quiz?.likes_count}</span>
             </div>
           </WithTooltip>
 
-          {is_played ? (
+          {quiz?.is_played ? (
             <>
               <div className="h-10">
                 <Separator orientation="vertical" className="w-px" />
@@ -82,14 +72,14 @@ const StartQuizCard = ({
                   <div className="flex items-center gap-x-1.5">
                     <Info className="h-3.5 w-3.5   " />
                     <span>
-                      You got <span>{score}/5</span> in your last try.
+                      You got <span>{quiz?.score}/5</span> in your last try.
                     </span>
                   </div>
                 }
               >
                 <div className="flex flex-col items-center justify-center">
                   <Medal className="h-5 w-5 mb-1" />
-                  <span className="text-sm">{score}/5</span>
+                  <span className="text-sm">{quiz?.score}/5</span>
                 </div>
               </WithTooltip>
             </>
@@ -97,10 +87,10 @@ const StartQuizCard = ({
         </div>
         <div className="flex items-center   pt-4 gap-x-2 mx-auto sm:mx-0   ">
           <ButtonLink
-            href={`/quiz/${topic}-${quiz}/play`}
+            href={`/quiz/${quiz?.topic?.name}-${quiz?.id}/play`}
             className={`${viewport === "desktop" ? "w-full " : "w-28"}`}
           >
-            {is_played ? "Retry" : "Play"}
+            {quiz?.is_played ? "Retry" : "Play"}
           </ButtonLink>
         </div>
       </CardContent>

@@ -4,14 +4,25 @@ import ShareMenu from "../ShareMenu";
 import useLikeQuiz from "@/hooks/use-like-quiz";
 import { Heart } from "lucide-react";
 import StartQuizCard from "./StartQuizCard";
+import { retrieveQuiz } from "@/services";
+import { useQuery } from "react-query";
 
 type Props = {
   quiz: API.TQuiz;
 };
 
-const QuizSidebar = ({ quiz }: Props) => {
-  const { likesCount, isLiked, likeId, isLiking, isDisliking, like, dislike } =
-    useLikeQuiz(quiz);
+const QuizSidebar = ({ quiz: initialQuiz }: Props) => {
+  const { data: quiz } = useQuery({
+    queryKey: ["quiz-detail", initialQuiz.id],
+    queryFn: async () => {
+      const res = retrieveQuiz(initialQuiz.id);
+      return (await res).data;
+    },
+    initialData: initialQuiz,
+  });
+  const { isLiked, likeId, isLiking, isDisliking, like, dislike } = useLikeQuiz(
+    quiz!
+  );
   return (
     <div className="sticky right-0 top-24 hidden md:block">
       <div className="flex items-center justify-end gap-x-2.5 mb-4">
@@ -32,13 +43,7 @@ const QuizSidebar = ({ quiz }: Props) => {
           </div>
         </button>
       </div>
-      <StartQuizCard
-        likes_count={likesCount}
-        participants_count={quiz.participants_count}
-        is_played={quiz.is_played}
-        score={quiz.score}
-        viewport="desktop"
-      />
+      <StartQuizCard quiz={quiz!} viewport="desktop" />
     </div>
   );
 };

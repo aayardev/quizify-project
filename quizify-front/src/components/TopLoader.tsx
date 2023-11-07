@@ -1,11 +1,8 @@
 "use client";
-import { useTheme } from "next-themes";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
-import React from "react";
+import { useTheme } from "next-themes";
 
-type Props = {};
-
-const TopLoader = (props: Props) => {
+const TopLoader = () => {
   const { theme } = useTheme();
   console.log("theme", theme);
 

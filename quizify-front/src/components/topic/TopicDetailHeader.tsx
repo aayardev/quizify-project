@@ -57,7 +57,7 @@ const TopicDetailHeader = ({ isSubscribed: initialIsSubscribed }: Props) => {
             }}
             className="text-xl sm:text-2xl font-bold tracking-tighter  relative inline-block "
           >
-            {capitalize(topic)}
+            {capitalize(decodeURIComponent(topic))}
           </h2>
           <svg
             xmlns="http://www.w3.org/2000/svg"

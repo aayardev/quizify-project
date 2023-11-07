@@ -1,16 +1,14 @@
 "use client";
 
+import WithTooltip from "@/components/wrappers/withTooltip";
+import useLikeQuiz from "@/hooks/use-like-quiz";
 import { capitalize } from "@/lib/utils";
-import { Heart, Info, ThumbsUp, User } from "lucide-react";
+import { Heart, Info, User } from "lucide-react";
+import Link from "next/link";
+import { useRef } from "react";
+import { useHover } from "usehooks-ts";
 import UserAvatar from "./UserAvatar";
 import { Card, CardFooter, CardHeader, CardTitle } from "./ui/card";
-import WithTooltip from "@/components/wrappers/withTooltip";
-import { useHover } from "usehooks-ts";
-import { useEffect, useRef, useState } from "react";
-import Link from "next/link";
-import { useMutation, useQueryClient } from "react-query";
-import { dislikeQuiz, likeQuiz } from "@/services";
-import useLikeQuiz from "@/hooks/use-like-quiz";
 
 type Props = {
   quiz: API.TQuiz;
