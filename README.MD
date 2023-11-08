@@ -13,4 +13,6 @@ A web application that harnesses AI, allowing a user to generate multiple-choice
 
 ## Demo
 
+[Quizify](https://quizify-opal.vercel.app/)
+
 [![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/TiXETUYJF5A/0.jpg)](https://www.youtube.com/watch?v=TiXETUYJF5A)
