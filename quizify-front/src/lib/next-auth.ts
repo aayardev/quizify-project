@@ -11,6 +11,7 @@ import CredentialsProvider from "next-auth/providers/credentials";
 import FacebookProvider from "next-auth/providers/facebook";
 import GoogleProvider from "next-auth/providers/google";
 import GithubProvider from "next-auth/providers/github";
+import { isTokenExpired } from "./utils";
 
 /**
  * Module augmentation for `next-auth` types. Allows us to add custom properties to the `session`
@@ -70,10 +71,6 @@ async function refreshToken(token: JWT): Promise<JWT> {
 
   return newToken as JWT;
 }
-
-const isTokenExpired = (token: { access_expiration: string }) => {
-  return moment().utc() > moment(token.access_expiration).utc();
-};
 
 // TODO: Fix sign out logic
 /**

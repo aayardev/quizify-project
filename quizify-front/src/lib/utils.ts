@@ -1,9 +1,6 @@
+import moment from "moment";
 import { clsx, type ClassValue } from "clsx";
-import {
-  FieldValues,
-  Path,
-  UseFormSetError
-} from "react-hook-form";
+import { FieldValues, Path, UseFormSetError } from "react-hook-form";
 import { twMerge } from "tailwind-merge";
 
 export function cn(...inputs: ClassValue[]) {
@@ -98,4 +95,8 @@ export const isProgrammingLanguage = (language: string) => {
   ];
 
   return programmingLanguages.includes(language.toLowerCase());
+};
+
+export const isTokenExpired = (token: { access_expiration: string }) => {
+  return moment().utc() > moment(token.access_expiration).utc();
 };
