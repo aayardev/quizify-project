@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     "django_filters",
     "colorfield",
     "notifications",
+    "drf_spectacular",
     # Local apps
     "core",
     "accounts",
@@ -248,6 +249,7 @@ REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
     "DEFAULT_PAGINATION_CLASS": "api.utils.pagination.PageNumberPagination",
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
 
 # django-rest-framework-simplejwt
@@ -295,3 +297,14 @@ cloudinary.config(
     api_key=os.environ.get("CLOUDINARY_API_KEY", ""),
     api_secret=os.environ.get("CLOUDINARY_API_SECRET", ""),
 )
+
+
+# drf-spectacular
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Quizify API",
+    "DESCRIPTION": "Quizify, a web application that harnesses AI, allowing a user to generate multiple-choice questions (MCQs) on a given topic.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
+    # OTHER SETTINGS
+}
