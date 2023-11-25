@@ -7,6 +7,9 @@ from drf_spectacular.views import (
 
 from . import views
 
+app_name = "api"
+
+
 urlpatterns = [
     path("create-quiz/", views.create_quiz_api_view, name="quiz_create"),
     path("latest-quizzes/", views.latest_quizzes_list_api_view, name="latest_quizzes"),

@@ -54,6 +54,8 @@ class CreateQuizAPIView(views.APIView):
                 ],
             )
 
+            print(questions, "questions")
+
             # Create new quiz
             quiz = Quiz.objects.create(created_by=request.user, topic=created_topic)
 

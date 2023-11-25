@@ -11,7 +11,12 @@ CLOUD_NAME = (os.environ.get("CLOUDINARY_CLOUD_NAME", ""),)
 
 class UserModelSerializer(FlexFieldsModelSerializer):
     full_name = serializers.CharField()
-    profile_image_url = serializers.CharField(source="profile_image.url")
+    profile_image_url = serializers.SerializerMethodField()
+
+    def get_profile_image_url(self, user):
+        if hasattr(user.profile_image, "url"):
+            return user.profile_image.url
+        return None
 
     class Meta:
         model = User
@@ -24,7 +29,10 @@ class UserModelSerializer(FlexFieldsModelSerializer):
             "profile_image",
             "profile_image_url",
         ]
-        extra_kwargs = {"profile_image": {"write_only": True}}
+        extra_kwargs = {
+            "profile_image": {"write_only": True},
+            "profile_image_url": {"read_only": True},
+        }
 
     def update(self, instance, validated_data):
         return super().update(instance, validated_data)
