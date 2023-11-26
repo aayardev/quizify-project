@@ -1,15 +1,5 @@
-import LatestParticipations from "@/components/quiz/LatestParticipations";
-import QuizDetailHeader from "@/components/quiz/QuizDetailHeader";
-import QuizMobileCTL from "@/components/quiz/QuizMobileCTL";
 import QuizQuestions from "@/components/quiz/QuizQuestions";
-import QuizSidebar from "@/components/quiz/QuizSidebar";
-import TopParticipations from "@/components/quiz/TopParticipations";
-import { Separator } from "@/components/ui/separator";
-import {
-  getQuizLatestParticipations,
-  getQuizTopParticipations,
-  retrieveQuiz,
-} from "@/services";
+import { retrieveQuiz } from "@/services";
 
 type Props = {
   params: {
@@ -20,7 +10,7 @@ type Props = {
   };
 };
 
-const PlayQuizPage = async ({ params, searchParams }: Props) => {
+const PlayQuizPage = async ({ params }: Props) => {
   const { slug } = params;
   const [_topic, id] = slug.split("-");
   const { data: quiz } = await retrieveQuiz(Number(id));

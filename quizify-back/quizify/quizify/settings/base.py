@@ -268,3 +268,21 @@ SPECTACULAR_SETTINGS = {
     "SERVE_INCLUDE_SCHEMA": False,
     # OTHER SETTINGS
 }
+
+
+# Celery
+
+CELERY_BROKER_URL = (
+    "redis://default:opKeokngMB4CcnD3od4imDcImdkcH6pb@roundhouse.proxy.rlwy.net:36561"
+)
+
+CELERY_RESULT_BACKEND = (
+    "redis://default:opKeokngMB4CcnD3od4imDcImdkcH6pb@roundhouse.proxy.rlwy.net:36561"
+)
+
+CELERY_ACCEPT_CONTENT = ["json"]
+CELERY_TASK_SERIALIZER = "json"
+
+# EMAIL
+DEFAULT_FROM_EMAIL = "support@quizify.com"
+ADMIN_EMAIL = "aayar@quizify.com"

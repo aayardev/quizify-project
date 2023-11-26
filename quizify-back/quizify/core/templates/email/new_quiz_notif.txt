@@ -1,0 +1,10 @@
+{% extends "account/email/base_message.txt" %}
+
+{% block content %}
+
+<p>
+{{user}} shared a new quiz about {{topic}}.
+</p>
+
+
+{% endblock content %}

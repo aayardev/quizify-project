@@ -3,6 +3,7 @@ from django.dispatch import receiver
 from notifications.signals import notify
 
 from core.models import Quiz, User
+from core.tasks import send_new_quiz_in_topic_email_task
 
 
 @receiver(post_save, sender=Quiz)
@@ -21,4 +22,9 @@ def notify_topic_subscribers(sender, created, instance, **kwargs):
             action_object=instance,
             target=instance.topic,
             timestamp=instance.created_at,
+        )
+
+        emails = list(subscribers.values_list("email", flat=True))
+        send_new_quiz_in_topic_email_task.delay(
+            topic=topic.name, user=instance.created_by.full_name, reciepents=emails
         )

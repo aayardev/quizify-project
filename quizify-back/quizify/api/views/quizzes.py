@@ -54,7 +54,8 @@ class CreateQuizAPIView(views.APIView):
                 ],
             )
 
-            print(questions, "questions")
+            if not len(questions):
+                raise Exception("Could not generate questions.")
 
             # Create new quiz
             quiz = Quiz.objects.create(created_by=request.user, topic=created_topic)
